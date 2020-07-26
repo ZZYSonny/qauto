@@ -11,40 +11,48 @@ class Verse extends Questionable{
 
   final String blankLine = "_____";
   @override
-  Question toQuestion(int mode){
-    if(mode==0){
-      int n=brokeVerse.length;
-      int chosenid=randInt((n/2).truncate().toInt())*2;
-      String expectedAnswer = brokeVerse[chosenid];
-      brokeVerse[chosenid] = blankLine;
-      String displayDetail = brokeVerse.join();
-      brokeVerse[chosenid] = expectedAnswer;
-      //TODO: AudioSentence From Verse
-      String audioSentence = "Not decided";
-      return new SimpleQuestion( "填写上下文", displayDetail, audioSentence, expectedAnswer);
-    }else throw Exception("Question Mode out of range");
+  Question toQuestion(){
+    int n=brokeVerse.length;
+    int chosenid=Global.randInt((n/2).truncate().toInt())*2;
+    String expectedAnswer = brokeVerse[chosenid];
+    brokeVerse[chosenid] = blankLine;
+    String displayDetail = brokeVerse.join();
+    brokeVerse[chosenid] = expectedAnswer;
+    String audioSentence = "Not decided";
+    return new SimpleQuestion( "填写上下文", displayDetail, audioSentence, expectedAnswer);
+    //TODO: 提问有[]的字
+
   }
 }
 
-
-///完整记录一个诗词
+///完整记录一个诗词，并且能够从这个生成问题
+///JSON定义：
+///{
+/// "type":"poem",
+/// "title":"诗词名",
+/// "author":"作者名",
+/// "strategy",".../Smart",
+/// "content": [
+///   "被分开一句一句的诗，其中被[]起来的是容易写错的字，会额外问问题" 
+/// ]
+///}
 class Poem extends Questionable{
   int id;
   String title;
   String author;
+  String strategy;
   List<Verse> phrase = [];
 
   Poem.fromJson(Map<String, dynamic> json)
       : title = json['title'],
-        author = json['email'],
+        author = json['author'],
         id = json['id'],
         phrase = json['phrase'];
 
   @override
-  Question toQuestion(int mode) {
-    if(mode==0){
-      int n = phrase.length;
-      return phrase[randInt(n)].toQuestion(0);
-    }else throw Exception("Question Mode out of range");
+  Question toQuestion() {
+    var questions = phrase.map((x)=>x.toQuestion());
+    //TODO:提问作者、题目
+    return new QuestionGroup(questions,this.strategy);
   }
 }

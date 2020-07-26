@@ -4,15 +4,12 @@ part of 'package:qauto/questions/all.dart';
 ///定义问题，提供execute作为提问的接口
 abstract class Question {
   ///整个问题的执行
-  Future<bool> execute(QuestionPageState page,AudioController audio);
+  Future<bool> execute();
 }
 
 abstract class Questionable{
-  Question toQuestion(int mode);
-  Random rng = new Random();
-  int randInt(int n){
-    return rng.nextInt(n);
-  }
+  Question toQuestion();
+
 }
 
 ///简单的问题，只期望一个固定的答案或者控制语句
@@ -29,9 +26,24 @@ class SimpleQuestion extends Question {
     this._expectedAnswer,
   );
 
-  Future<bool> execute(QuestionPageState page,AudioController audio) async{
-    page.showQuestion(_displayCaption, _displayDetail);
-    audio.readSentence(_audioSentence);
-    return await audio.listenForSentences([_expectedAnswer, "我不会"]) == 0;
+  Future<bool> execute() async{
+    await onInit();
+    bool res = await judge();
+    await onResult(res);
+    return res;
+  }
+
+  ///初始化显示
+  Future<void> onInit() async{
+    Global.page.showQuestion(_displayCaption, _displayDetail);
+  }
+
+  Future<bool> judge() async{
+    Global.audio.readSentence(_audioSentence);
+    return await Global.audio.listenForSentences([_expectedAnswer, "我不会"]) == 0;
+  }
+
+  Future<void> onResult(bool res) async{
+
   }
 }

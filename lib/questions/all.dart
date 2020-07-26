@@ -1,10 +1,13 @@
 library libquestion;
 
+import 'dart:async';
+import 'dart:core';
+
 import 'package:qauto/ui/all.dart';
-import 'dart:math' show Random;
 
 //Question parts
-part 'templates/simple_question.dart';
+part 'simple_question.dart';
+part 'question_group.dart';
 
 //Generator parts
-part 'generators/simple_generator.dart';
+part 'group_controller/sequential.dart';

@@ -1,11 +1,17 @@
 part of 'package:qauto/ui/all.dart';
 
+abstract class AudioController{
+  Future<void> readSentence(String sentence);
+  Future<int> listenForSentences(List<String> expectedAnswers,
+      [bool allowNoResult = true]);
+}
+
 ///!!!这里的大部分函数都应该是async的
-class AudioController {
+class PseudoAudioController extends AudioController{
   Future<void> fakeAudioDelay() async =>
     Future.delayed(Duration(milliseconds: 300));
 
-  ///朗读问题,结束后再返回。
+  ///播放一句话，并且在播放接触后返回
   ///同一时间应该最多只有一个在跑
   bool _readLock = false;
   Future<void> readSentence(String sentence) async {

@@ -9,6 +9,12 @@ class QuestionPage extends StatefulWidget {
 }
 
 class QuestionPageState extends State<QuestionPage> {
+  QuestionPageState(){
+    //注册自己为问题窗口
+    Global.page=this;
+  }
+
+  //tmp
   String _displayCaption = "上下文填空";
   String _displayDetail = "床前明月光,\n_____";
 
@@ -20,30 +26,25 @@ class QuestionPageState extends State<QuestionPage> {
     });
   }
 
-  ///
-  void showAnswerResult(){
+  ///TODO:修改结果栏
+  void showAnswer(){
 
   }
 
-  ///
+  ///TODO:修改
   void showStats(){
 
   }
 
-  ///TODO:接受一个问题生成器，不停的问问题
-  ///这个audio要不要留在State里？
-  var audio = new AudioController();
-
-  Future<void> askQuestions(QuestionGeneratorWithResult qgen) async {
-    while (true) {
-      Question question = qgen.next();
-      bool res = await question.execute(this,audio);
-      qgen.submitResult(res);
-      log(qgen.showStats());
+  //确保只有一个问题在跑
+  bool _running=false;
+  Future<void> askQuestion(Question q) async {
+    if(!_running){
+      _running=true;
+      await q.execute();
+      _running=false;
     }
   }
-
-  var samplegen = new QuestionTesterGen();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +65,12 @@ class QuestionPageState extends State<QuestionPage> {
               ),
               RaisedButton(
                 onPressed: () {
-                  askQuestions(samplegen);
+                  //TODO:Test Only
+                  var question = new QuestionGroup([
+                      new SimpleQuestion("计算", "1+1=?", "一加一等于几", "二"),
+                      new SimpleQuestion("计算", "1+2=?", "一加二等于几", "三")
+                    ],"Sequential");
+                  askQuestion(question);
                 },
                 child: const Text('开始', style: TextStyle(fontSize: 20)),
               ),
