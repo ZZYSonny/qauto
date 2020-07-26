@@ -46,6 +46,11 @@ class QuestionPageState extends State<QuestionPage> {
     }
   }
 
+  void askFromFile(String filename) async {
+    var question = await Questionable.fromFile(filename);
+    await askQuestion(question.toQuestion());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,11 +71,11 @@ class QuestionPageState extends State<QuestionPage> {
               RaisedButton(
                 onPressed: () {
                   //TODO:Test Only
-                  var question = new QuestionGroup([
+                  /*var question = new QuestionGroup([
                       new SimpleQuestion("计算", "1+1=?", "一加一等于几", "二"),
                       new SimpleQuestion("计算", "1+2=?", "一加二等于几", "三")
-                    ],"Sequential");
-                  askQuestion(question);
+                    ],"Sequential");*/
+                  askFromFile("sample");
                 },
                 child: const Text('开始', style: TextStyle(fontSize: 20)),
               ),

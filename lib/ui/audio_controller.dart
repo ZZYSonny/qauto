@@ -9,7 +9,7 @@ abstract class AudioController{
 ///!!!这里的大部分函数都应该是async的
 class PseudoAudioController extends AudioController{
   Future<void> fakeAudioDelay() async =>
-    Future.delayed(Duration(milliseconds: 300));
+    Future.delayed(Duration(milliseconds: 600));
 
   ///播放一句话，并且在播放接触后返回
   ///同一时间应该最多只有一个在跑

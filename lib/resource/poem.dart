@@ -6,7 +6,7 @@ class Verse extends Questionable{
   ///奇数位为诗句，偶数位是标点
   List<String> brokeVerse;
   Verse(this.rawVerse){
-    brokeVerse = rawVerse.split(new RegExp(r"(?<=[,|.])|(?=[,|.])"));
+    brokeVerse = rawVerse.split(new RegExp(r"(?<=[，|。|!])|(?=[，|。|!])"));
   }
 
   final String blankLine = "_____";
@@ -37,21 +37,20 @@ class Verse extends Questionable{
 /// ]
 ///}
 class Poem extends Questionable{
-  int id;
   String title;
   String author;
   String strategy;
   List<Verse> phrase = [];
 
-  Poem.fromJson(Map<String, dynamic> json)
-      : title = json['title'],
-        author = json['author'],
-        id = json['id'],
-        phrase = json['phrase'];
+  Poem.fromJSON(Map<String, dynamic> json)
+      : this.title = json['title'],
+        this.author = json['author'],
+        this.strategy = json['strategy'],
+        this.phrase = List<String>.from(json['content']).map((x)=>(new Verse(x))).toList();
 
   @override
   Question toQuestion() {
-    var questions = phrase.map((x)=>x.toQuestion());
+    var questions = phrase.map((x)=>x.toQuestion()).toList();
     //TODO:提问作者、题目
     return new QuestionGroup(questions,this.strategy);
   }
