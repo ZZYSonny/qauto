@@ -15,8 +15,8 @@ class QuestionPageState extends State<QuestionPage> {
   }
 
   //tmp
-  String _displayCaption = "上下文填空";
-  String _displayDetail = "床前明月光,\n_____";
+  String _displayCaption = "标题";
+  String _displayDetail = "问题";
 
   ///修改当前显示的问题,同时初始化结果栏
   void showQuestion(String caption, String detail) {
@@ -36,20 +36,6 @@ class QuestionPageState extends State<QuestionPage> {
 
   }
 
-  //确保只有一个问题在跑
-  bool _running=false;
-  Future<void> askQuestion(Question q) async {
-    if(!_running){
-      _running=true;
-      await q.execute();
-      _running=false;
-    }
-  }
-
-  void askFromFile(String filename) async {
-    var question = await Questionable.fromFile(filename);
-    await askQuestion(question.toQuestion());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,17 +56,13 @@ class QuestionPageState extends State<QuestionPage> {
               ),
               RaisedButton(
                 onPressed: () {
-                  //TODO:Test Only
-                  /*var question = new QuestionGroup([
-                      new SimpleQuestion("计算", "1+1=?", "一加一等于几", "二"),
-                      new SimpleQuestion("计算", "1+2=?", "一加二等于几", "三")
-                    ],"Sequential");*/
                   askFromFile("sample");
                 },
                 child: const Text('开始', style: TextStyle(fontSize: 20)),
               ),
               RaisedButton(
                 onPressed: () {
+                  //TODO:Test Only
                   log("I can still move");
                 },
                 child: const Text('开始', style: TextStyle(fontSize: 20)),

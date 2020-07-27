@@ -11,7 +11,7 @@ abstract class Questionable {
   static Questionable fromJSON(Map<String, dynamic> json) {
     switch (json['type']) {
       case 'group':
-        return new QuestionGroup.fromJSON(json);
+        return new QuestionableGroup.fromJSON(json);
       case 'poem':
         return new Poem.fromJSON(json);
     }

@@ -8,7 +8,7 @@ part of 'package:qauto/questions/all.dart';
 ///   "strategy": "Sequential/Random/Smart"       //采用的提问方式
 ///   "content": []                               //问题数组
 ///}
-class QuestionGroup extends Question with Questionable{
+class QuestionGroup extends Question{
   List<Question> questions;
   String strategy;
   QuestionGroup(this.questions,this.strategy);
@@ -18,14 +18,4 @@ class QuestionGroup extends Question with Questionable{
     if(strategy=="Sequential") await (new SequentialController(this.questions)).execute();
     return true;
   }
-
-  QuestionGroup.fromJSON(Map<String, dynamic> json){
-    this.strategy = json['strategy'];
-    List<dynamic> subquestion = json['content'].map((x)=>(Questionable.fromJSON(x).toQuestion())).toList();
-    this.questions = List<Question>.from(subquestion);
-  }
-    
-    
-  @override
-  Question toQuestion() => this;
 }
