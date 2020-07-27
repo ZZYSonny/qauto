@@ -90,3 +90,14 @@ class QuestionPageState extends State<QuestionPage> {
         ));
   }
 }
+
+class TestQuestionPageState extends QuestionPageState{
+  TestQuestionPageState(){
+    Global.page=this;
+  }
+  @override
+  void showQuestion(String caption, String detail) {
+    log("Display:Caption:$caption");
+    log("Display:Detail:$detail");
+  }
+}

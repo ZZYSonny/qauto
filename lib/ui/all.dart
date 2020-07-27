@@ -1,6 +1,6 @@
 library libui;
 
-import 'dart:developer';
+import 'dart:developer' as dev;
 import 'dart:math' hide log;
 import 'package:qauto/questions/all.dart';
 import 'package:flutter/material.dart';
