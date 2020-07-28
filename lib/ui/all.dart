@@ -10,3 +10,4 @@ part 'audio_controller.dart';
 part 'question_page.dart';
 part 'global.dart';
 part 'facade.dart';
+part 'test_kit.dart';

@@ -36,7 +36,7 @@ class QuestionPageState extends State<QuestionPage> {
 
   }
 
-
+  ///TODO:慢慢美化
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,16 +70,5 @@ class QuestionPageState extends State<QuestionPage> {
             ],
           ),
         ));
-  }
-}
-
-class TestQuestionPageState extends QuestionPageState{
-  TestQuestionPageState(){
-    Global.page=this;
-  }
-  @override
-  void showQuestion(String caption, String detail) {
-    log("Display:Caption:$caption");
-    log("Display:Detail:$detail");
   }
 }

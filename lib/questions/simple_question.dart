@@ -14,6 +14,8 @@ abstract class Questionable {
         return new QuestionableGroup.fromJSON(json);
       case 'poem':
         return new Poem.fromJSON(json);
+      default:
+        throw Exception("No such type");
     }
   }
 

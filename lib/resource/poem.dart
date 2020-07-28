@@ -28,13 +28,13 @@ class Verse extends Questionable{
 ///完整记录一个诗词，并且能够从这个生成问题
 ///JSON定义：
 ///{
-/// "type":"poem",
+/// "type":"poem/文言文",
 /// "title":"诗词名",
 /// "author":"作者名",
 /// "strategy",".../Smart",
 /// "content": [
 ///   "被分开一句一句的诗，其中被[]起来的是容易写错的字，会额外问问题" 
-/// ]
+/// ] 或者是 一个字符串
 ///}
 class Poem extends Questionable{
   String title;

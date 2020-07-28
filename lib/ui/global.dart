@@ -2,7 +2,7 @@ part of 'package:qauto/ui/all.dart';
 
 class Global{
   static QuestionPageState page;
-  static AudioController audio=new PseudoAudioController();
+  static AudioController audio=new TestAudioController();
   static Random rng = new Random();
   static int randInt(int n){
     return rng.nextInt(n);
@@ -11,8 +11,8 @@ class Global{
 }
 
 ///Memorize logged data for test
-String logged = "";
+List<String> logged = [];
 void log(String str){
   dev.log(str);
-  logged+=str+"\n";
+  logged.insert(logged.length, str);
 }
