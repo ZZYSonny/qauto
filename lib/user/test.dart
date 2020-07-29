@@ -1,12 +1,12 @@
-part of 'package:qauto/ui/all.dart';
+part of 'package:qauto/user/all.dart';
 
-///修改界面时还会log
 class TestQuestionPageState extends QuestionPageState{
   TestQuestionPageState(){
     Global.page=this;
   }
   @override
   void showQuestion(String caption, String detail) {
+    //修改界面是同时log
     log("Display:Caption:$caption");
     log("Display:Detail:$detail");
   }
@@ -32,10 +32,8 @@ class TestAudioController extends AudioController{
   Future<int> listenForSentences(List<String> expectedAnswers,
       [bool allowNoResult = true,int testFixedResult = -1]) async {
     int id;
-    if(testFixedResult==-1){
-      Random rng = new Random();
-      id = rng.nextInt(expectedAnswers.length);
-    }else id = testFixedResult;
+    if(testFixedResult==-1) id = Global.randInt(expectedAnswers.length);
+    else id = testFixedResult;
     await fakeAudioDelay();
     log("Audio:Answer:" + expectedAnswers.asMap()[id]);
     return id;

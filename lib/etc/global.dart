@@ -1,4 +1,4 @@
-part of 'package:qauto/ui/all.dart';
+part of 'package:qauto/etc/all.dart';
 
 class Global{
   static QuestionPageState page;

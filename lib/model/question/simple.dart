@@ -1,4 +1,4 @@
-part of 'package:qauto/questions/all.dart';
+part of 'package:qauto/model/all.dart';
 
 ///定义问题，提供execute作为提问的接口
 abstract class Question {
@@ -19,11 +19,14 @@ abstract class Questionable {
     }
   }
 
+  /*
+  应该在JSONLoader里面搞这一步的
   static Future<Questionable> fromFile(String filename) async {
     String str = await rootBundle.loadString('assets/$filename.json');
     var jsonResult = json.decode(str);
     return fromJSON(jsonResult);
   }
+  */
 }
 
 ///简单的问题，只期望一个固定的答案或者控制语句

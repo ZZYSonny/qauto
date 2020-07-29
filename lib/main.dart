@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'ui/all.dart';
+import 'user/all.dart';
 
 void main() {
   runApp(MyApp());

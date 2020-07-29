@@ -1,7 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:qauto/resource/all.dart';
-import 'package:qauto/ui/all.dart';
+import 'package:qauto/model/all.dart';
+import 'package:qauto/user/all.dart';
+import 'package:qauto/etc/all.dart';
 
 void main() {
   //set up global stuff

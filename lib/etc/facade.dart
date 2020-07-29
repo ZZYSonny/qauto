@@ -1,4 +1,4 @@
-part of 'package:qauto/ui/all.dart';
+part of 'package:qauto/etc/all.dart';
 
 //确保只有一个问题在跑
 bool _running = false;
@@ -11,6 +11,8 @@ Future<void> askQuestion(Question q) async {
 }
 
 void askFromFile(String filename) async {
-  var question = await Questionable.fromFile(filename);
+  String str = await rootBundle.loadString('assets/$filename.json');
+  var jsonResult = json.decode(str);
+  var question = Questionable.fromJSON(jsonResult);
   await askQuestion(question.toQuestion());
 }

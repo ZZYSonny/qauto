@@ -1,4 +1,4 @@
-part of 'package:qauto/ui/all.dart';
+part of 'package:qauto/user/all.dart';
 
 class QuestionPage extends StatefulWidget {
   QuestionPage({Key key, this.title}) : super(key: key);

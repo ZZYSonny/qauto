@@ -1,4 +1,4 @@
-part of 'package:qauto/ui/all.dart';
+part of 'package:qauto/user/all.dart';
 
 ///!!!这里的大部分函数都应该是async的
 abstract class AudioController{

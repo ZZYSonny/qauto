@@ -1,4 +1,4 @@
-part of 'package:qauto/resource/all.dart';
+part of 'package:qauto/model/all.dart';
 
 ///接收一个含有一句诗词及标点的字符串，并提供一些功能
 class Verse extends Questionable{
@@ -21,7 +21,6 @@ class Verse extends Questionable{
     String audioSentence = "Not decided";
     return new SimpleQuestion( "填写上下文", displayDetail, audioSentence, expectedAnswer);
     //TODO: 提问有[]的字
-
   }
 }
 

@@ -1,4 +1,4 @@
-part of 'package:qauto/questions/all.dart';
+part of 'package:qauto/model/all.dart';
 
 abstract class QGroupController {
   ///按照一定顺序运行List中的问题

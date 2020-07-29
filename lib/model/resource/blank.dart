@@ -1,4 +1,4 @@
-part of 'package:qauto/resource/all.dart';
+part of 'package:qauto/model/all.dart';
 
 ///填空题
 ///JSON定义：
