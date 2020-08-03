@@ -2,7 +2,7 @@ part of 'package:qauto/etc/all.dart';
 
 class Global{
   static QuestionPageState page;
-  static AudioController audio=new TestAudioController();
+  static AudioController audio=new AISpeechAudioController();
   static Random rng = new Random();
   static int randInt(int n){
     return rng.nextInt(n);

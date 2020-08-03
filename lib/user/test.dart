@@ -14,6 +14,8 @@ class TestQuestionPageState extends QuestionPageState{
 
 ///通过log来模拟声音输出和回答
 class TestAudioController extends AudioController{
+  Future<bool> init() async {return true;}
+
   Future<void> fakeAudioDelay() async =>
     Future.delayed(Duration(milliseconds: 600));
 
