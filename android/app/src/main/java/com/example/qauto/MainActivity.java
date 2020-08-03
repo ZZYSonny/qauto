@@ -107,6 +107,8 @@ public class MainActivity extends FlutterActivity{
         asrConfig = new AICloudASRConfig();
         asrConfig.setLocalVadEnable(true);
         asrConfig.setVadResource("vad_aihome_v0.11.bin");
+        asrEngine = AICloudASREngine.createInstance();
+        asrEngine.init(asrConfig, new AICloudASRListenerImpl());
         asrIntent = new AICloudASRIntent();
         asrIntent.setEnablePunctuation(false);
         asrIntent.setResourceType("comm");
@@ -163,8 +165,7 @@ public class MainActivity extends FlutterActivity{
     }
 
     private void listen(){
-        asrEngine = AICloudASREngine.createInstance();
-        asrEngine.init(asrConfig, new AICloudASRListenerImpl());
+        asrEngine.start(asrIntent);
     }
 
     private class AICloudASRListenerImpl  implements AIASRListener {
@@ -172,8 +173,6 @@ public class MainActivity extends FlutterActivity{
             Log.i("TAG", "Init result " + status);
             if (status == AIConstant.OPT_SUCCESS) {
                 Log.d("TAG", "初始化成功!");
-                asrEngine.start(asrIntent);
-                beep();
             } else {
                 Log.d("TAG", "初始化失败!code:" + status);
             }
@@ -190,7 +189,8 @@ public class MainActivity extends FlutterActivity{
                     Log.i("Tag", "result JSON = " + aiResult.getResultObject().toString());
                     result.success(aiResult.getResultObject().toString());
                     result = null;
-                    asrEngine.destroy();
+                    //使用asrEngine.stop()目前不会AudioRecord pause()，所以在获得结果后cancel()
+                    asrEngine.cancel();
                 }
             }
         }
@@ -199,6 +199,7 @@ public class MainActivity extends FlutterActivity{
 
         @Override public void onReadyForSpeech() {
             Log.d("TAG", "语音引擎就绪，用户可以说话");
+            beep();
         }
 
         @Override public void onBeginningOfSpeech() {
@@ -207,6 +208,7 @@ public class MainActivity extends FlutterActivity{
 
         @Override public void onEndOfSpeech() {
             Log.d("TAG", "用户停止说话");
+            asrEngine.stop();
         }
 
         @Override public void onRawDataReceived(byte[] bytes, int i) {
