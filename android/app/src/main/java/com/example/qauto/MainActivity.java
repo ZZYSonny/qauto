@@ -99,20 +99,19 @@ public class MainActivity extends FlutterActivity{
         ttsEngine.init(ttsConfig, new AITTSListenerImpl());
         ttsIntent.setSaveAudioPath(Environment.getExternalStorageDirectory() + "/tts");//设置合成音的保存路径
         ttsIntent.setSpeaker("xijunma");
-        ttsIntent.setVolume("50");
+        ttsIntent.setVolume("100");
         ttsIntent.setSpeed("1.0");
         //asr
         asrConfig = new AICloudASRConfig();
         asrConfig.setLocalVadEnable(true);
         asrConfig.setVadResource("vad_aihome_v0.11.bin");
         asrEngine = AICloudASREngine.createInstance();
-        asrEngine.init(asrConfig, new AICloudASRListenerImpl());
         asrIntent = new AICloudASRIntent();
         asrIntent.setEnablePunctuation(false);
         asrIntent.setResourceType("comm");
         asrIntent.setEnableNumberConvert(false);
-        asrIntent.setEnableSNTime(true);
-        asrIntent.setCloudVadEnable(true);
+        asrIntent.setEnableSNTime(false);
+        asrIntent.setCloudVadEnable(false);
         asrIntent.setPauseTime(500);
         asrIntent.setWaitingTimeout(5000);
         asrIntent.setNoSpeechTimeOut(0);
@@ -147,9 +146,7 @@ public class MainActivity extends FlutterActivity{
             result.success(true);
             result = null;
         }
-        @Override public void onProgress(int currentTime, int totalTime, boolean isRefTextTTSFinished) {
-            Log.e("TAG", "当前:" + currentTime + "ms, 总计:" + totalTime + "ms, 可信度:" + isRefTextTTSFinished);
-        }
+        @Override public void onProgress(int currentTime, int totalTime, boolean isRefTextTTSFinished) {}
         @Override public void onSynthesizeStart(String s) {}
         @Override public void onSynthesizeDataArrived(String s, byte[] bytes) {}
         @Override public void onSynthesizeFinish(String s) {}
@@ -159,7 +156,7 @@ public class MainActivity extends FlutterActivity{
     AICloudASRConfig asrConfig;
     AICloudASRIntent asrIntent;
     private void listen(){
-        asrEngine.start(asrIntent);
+        asrEngine.init(asrConfig, new AICloudASRListenerImpl());
     }
 
     private class AICloudASRListenerImpl  implements AIASRListener {
@@ -167,6 +164,7 @@ public class MainActivity extends FlutterActivity{
             Log.i("TAG", "Init result " + status);
             if (status == AIConstant.OPT_SUCCESS) {
                 Log.d("TAG", "初始化成功!");
+                asrEngine.start(asrIntent);
             } else {
                 Log.d("TAG", "初始化失败!code:" + status);
             }
@@ -183,13 +181,12 @@ public class MainActivity extends FlutterActivity{
                     Log.i("Tag", "result JSON = " + aiResult.getResultObject().toString());
                     result.success(aiResult.getResultObject().toString());
                     result = null;
+                    asrEngine.destroy();
                 }
             }
         }
 
-        @Override public void onRmsChanged(float v) {
-            Log.d("TAG", "音频音量发生改变");
-        }
+        @Override public void onRmsChanged(float v) {}
 
         @Override public void onReadyForSpeech() {
             Log.d("TAG", "语音引擎就绪，用户可以说话");
