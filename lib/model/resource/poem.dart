@@ -18,7 +18,7 @@ class Verse extends Questionable{
     brokeVerse[chosenid] = blankLine;
     String displayDetail = brokeVerse.join();
     brokeVerse[chosenid] = expectedAnswer;
-    String audioSentence = "Not decided";
+    String audioSentence = "问题开始";
     return new SimpleQuestion( "填写上下文", displayDetail, audioSentence, expectedAnswer);
     //TODO: 提问有[]的字
   }

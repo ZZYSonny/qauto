@@ -1,5 +1,7 @@
 package com.example.qauto;
 
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -118,9 +120,9 @@ public class MainActivity extends FlutterActivity{
         asrIntent.setSaveAudioPath(Environment.getExternalStorageDirectory() + "/stt");
     }
 
-    AICloudTTSEngine ttsEngine;
-    AICloudTTSConfig ttsConfig;
-    AICloudTTSIntent ttsIntent;
+    private AICloudTTSEngine ttsEngine;
+    private AICloudTTSConfig ttsConfig;
+    private AICloudTTSIntent ttsIntent;
     private void speak(String text){
         ttsEngine.speak(ttsIntent, text, "1024");
     }
@@ -152,9 +154,15 @@ public class MainActivity extends FlutterActivity{
         @Override public void onSynthesizeFinish(String s) {}
     }
 
-    AICloudASREngine asrEngine;
-    AICloudASRConfig asrConfig;
-    AICloudASRIntent asrIntent;
+    private AICloudASREngine asrEngine;
+    private AICloudASRConfig asrConfig;
+    private AICloudASRIntent asrIntent;
+
+    ToneGenerator beepGen = new ToneGenerator(AudioManager.STREAM_MUSIC, 100);
+    void beep(){
+        beepGen.startTone(ToneGenerator.TONE_CDMA_PIP,100);
+    }
+
     private void listen(){
         asrEngine.init(asrConfig, new AICloudASRListenerImpl());
     }
@@ -165,6 +173,7 @@ public class MainActivity extends FlutterActivity{
             if (status == AIConstant.OPT_SUCCESS) {
                 Log.d("TAG", "初始化成功!");
                 asrEngine.start(asrIntent);
+                beep();
             } else {
                 Log.d("TAG", "初始化失败!code:" + status);
             }
