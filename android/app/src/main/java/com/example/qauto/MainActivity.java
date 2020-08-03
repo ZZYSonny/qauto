@@ -1,5 +1,6 @@
 package com.example.qauto;
 
+import android.Manifest;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
@@ -64,8 +66,22 @@ public class MainActivity extends FlutterActivity{
                 );
     }
 
+    private void requestPerms(){
+        String[] perms = {
+                Manifest.permission.RECORD_AUDIO,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.ACCESS_WIFI_STATE
+        };
+        requestPermissions(perms,0);
+    }
+
     //注册设备
     private void init(){
+        requestPerms();
         //产品认证需设置 apiKey, productId, productKey, productSecret
         DUILiteConfig config = new DUILiteConfig(
             "7dd4827f9b2f7dd4827f9b2f5f281027",
