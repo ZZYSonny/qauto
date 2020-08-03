@@ -115,10 +115,11 @@ public class MainActivity extends FlutterActivity{
         ttsConfig = new AICloudTTSConfig();
         ttsIntent = new AICloudTTSIntent();
         ttsEngine.init(ttsConfig, new AITTSListenerImpl());
-        ttsIntent.setSaveAudioPath(Environment.getExternalStorageDirectory() + "/tts");//设置合成音的保存路径
+        ttsIntent.setSaveAudioPath(getExternalCacheDir() + "/aispeech/tts");//设置合成音的保存路径
         ttsIntent.setSpeaker("xijunma");
         ttsIntent.setVolume("100");
         ttsIntent.setSpeed("1.0");
+        getExternalCacheDir();
         //asr
         asrConfig = new AICloudASRConfig();
         asrConfig.setLocalVadEnable(true);
@@ -134,7 +135,7 @@ public class MainActivity extends FlutterActivity{
         asrIntent.setPauseTime(500);
         asrIntent.setWaitingTimeout(5000);
         asrIntent.setNoSpeechTimeOut(0);
-        asrIntent.setSaveAudioPath(Environment.getExternalStorageDirectory() + "/stt");
+        asrIntent.setSaveAudioPath(getExternalCacheDir() + "/aispeech/stt");
     }
 
     private AICloudTTSEngine ttsEngine;
