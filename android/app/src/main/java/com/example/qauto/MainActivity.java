@@ -68,7 +68,7 @@ public class MainActivity extends FlutterActivity{
     private void init(){
         //产品认证需设置 apiKey, productId, productKey, productSecret
         DUILiteConfig config = new DUILiteConfig(
-            "6a4bfb0e37596a4bfb0e37595f26c1b3",
+            "7dd4827f9b2f7dd4827f9b2f5f281027",
             "279596193",
             "ad50e99fc305084aaa95eaabc561e4cc",
             "304015f73706e80f20b010a650b4447e"
