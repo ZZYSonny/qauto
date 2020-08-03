@@ -107,7 +107,6 @@ public class MainActivity extends FlutterActivity{
         asrConfig = new AICloudASRConfig();
         asrConfig.setLocalVadEnable(true);
         asrConfig.setVadResource("vad_aihome_v0.11.bin");
-        asrEngine = AICloudASREngine.createInstance();
         asrIntent = new AICloudASRIntent();
         asrIntent.setEnablePunctuation(false);
         asrIntent.setResourceType("comm");
@@ -164,6 +163,7 @@ public class MainActivity extends FlutterActivity{
     }
 
     private void listen(){
+        asrEngine = AICloudASREngine.createInstance();
         asrEngine.init(asrConfig, new AICloudASRListenerImpl());
     }
 
