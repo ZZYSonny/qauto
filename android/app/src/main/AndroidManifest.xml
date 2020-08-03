@@ -1,5 +1,25 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.qauto">
+
+<!--获取手机录音机使用权限，识别、语义理解需要用到此权限 -->
+<uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+<!-- 授权需要 -->
+<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+<uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
+
+<!--保存文件需要用到此权限 -->
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<!--保存文件需要用到此权限 -->
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+<!--云端功能需要用到此权限 -->
+<uses-permission android:name="android.permission.INTERNET" />
+
+<!-- 授权需要 -->
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+
+
     <!-- io.flutter.app.FlutterApplication is an android.app.Application that
          calls FlutterMain.startInitialization(this); in its onCreate method.
          In most cases you can leave this as-is, but you if you want to provide

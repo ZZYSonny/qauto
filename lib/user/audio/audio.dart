@@ -2,6 +2,8 @@ part of 'package:qauto/user/all.dart';
 
 ///!!!这里的大部分函数都应该是async的
 abstract class AudioController{
+  Future<bool> init();
+
   ///播放一句话，并且在播放接触后返回
   ///同一时间应该最多只有一个在跑
   Future<void> readSentence(String sentence);
