@@ -28,34 +28,28 @@ import com.aispeech.upload.util.Log;
 
 
 public class MainActivity extends FlutterActivity{
-    private <T> void returnError(String message){
-        new Handler(Looper.getMainLooper()).post(new Runnable() {
-            @Override
-            public void run() {
-                result.error("FlutterChannel.AISpeechError",message,null);
-                result = null;
-            }
-        });
-    }
-
-
     private static final String CHANNEL = "com.example.qauto/aispeech";
-    private MethodChannel.Result result;
+    private MethodChannel.Result initResult;
+    private MethodChannel.Result speakResult;
+    private MethodChannel.Result listenResult;
     @Override public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
         super.configureFlutterEngine(flutterEngine);
         new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL)
                 .setMethodCallHandler(
-                        (call, newResult) -> {
-                            if(result!=null) returnError("Already doing sth else");
-                            result = newResult;
+                        (call, result) -> {
                             switch (call.method) {
                                 case "init":
+                                    initResult = result;
                                     init();
                                     break;
                                 case "speak":
+                                    if(speakResult!=null) result.error("FlutterChannel.AISpeechError","已经有一个语音合成了",null);
+                                    speakResult = result;
                                     speak(call.argument("text"));
                                     break;
                                 case "listen":
+                                    if(listenResult!=null) result.error("FlutterChannel.AISpeechError","已经有一个语音识别了",null);
+                                    listenResult = result;
                                     listen();
                                     break;
                                 default:
@@ -96,14 +90,20 @@ public class MainActivity extends FlutterActivity{
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        result.success(true);
-                        result = null;
+                        initResult.success(true);
+                        initResult = null;
                     }
                 });
             }
             @Override public void error(String errorCode,String errorInfo) {
                 Log.d("TAG", "授权失败, errorcode: "+errorCode+",errorInfo:"+errorInfo);
-                returnError("授权失败");
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        initResult.error("FlutterChannel.AISpeechError","授权失败",null);
+                        initResult = null;
+                    }
+                });
             }
         });
     }
@@ -156,15 +156,16 @@ public class MainActivity extends FlutterActivity{
         }
         @Override public void onError(String s, AIError Error) {
             Log.e("TAG", "onError: " + s + "," + Error.toString());
-            returnError(Error.toString());
+            speakResult.error("FlutterChannel.AISpeechError",Error.toString(),null);
+            speakResult=null;
         }
         @Override public void onReady(String s) {
             Log.e("TAG", "onReady: " + s);
         }
         @Override public void onCompletion(String s) {
             Log.e("TAG", "合成完成 onCompletion: " + s);
-            result.success(true);
-            result = null;
+            speakResult.success(true);
+            speakResult = null;
         }
         @Override public void onProgress(int currentTime, int totalTime, boolean isRefTextTTSFinished) {}
         @Override public void onSynthesizeStart(String s) {}
@@ -197,17 +198,18 @@ public class MainActivity extends FlutterActivity{
 
         @Override public void onError(AIError aiError) {
             Log.e("Tag", "error:" + aiError.toString());
-            returnError(aiError.toString());
+            listenResult.error("FlutterChannel.AISpeechError",aiError.toString(),null);
+            listenResult = null;
         }
 
         @Override public void onResults(AIResult aiResult) {
             if (aiResult.isLast()) {
                 if (aiResult.getResultType() == AIConstant.AIENGINE_MESSAGE_TYPE_JSON) {
-                    Log.i("Tag", "result JSON = " + aiResult.getResultObject().toString());
-                    result.success(aiResult.getResultObject().toString());
-                    result = null;
-                    //使用asrEngine.stop()目前不会AudioRecord pause()，所以在获得结果后cancel()
                     asrEngine.cancel();
+                    Log.i("Tag", "result JSON = " + aiResult.getResultObject().toString());
+                    listenResult.success(aiResult.getResultObject().toString());
+                    listenResult = null;
+                    //使用asrEngine.stop()目前不会AudioRecord pause()，所以在获得结果后cancel()
                 }
             }
         }
