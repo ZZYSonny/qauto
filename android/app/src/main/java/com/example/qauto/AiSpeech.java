@@ -87,9 +87,9 @@ public class AiSpeech extends Speech{
         asrIntent.setEnableNumberConvert(false);
         asrIntent.setEnableSNTime(false);
         asrIntent.setCloudVadEnable(false);
-        asrIntent.setPauseTime(500);
-        asrIntent.setWaitingTimeout(5000);
-        asrIntent.setNoSpeechTimeOut(0);
+        //asrIntent.setPauseTime(500);
+        //asrIntent.setWaitingTimeout(5000);
+        asrIntent.setNoSpeechTimeOut(3000);
         asrIntent.setSaveAudioPath(cacheDir + "/aispeech/stt");
     }
 
@@ -111,9 +111,9 @@ public class AiSpeech extends Speech{
                 Log.i("Tag", "初始化失败!");
             }
         }
-        @Override public void onError(String s, AIError Error) {
-            Log.e("TAG", "onError: " + s + "," + Error.toString());
-            ttsResult.error("FlutterChannel.AISpeechError",Error.toString(),null);
+        @Override public void onError(String s, AIError error) {
+            Log.e("TAG", "onError: " + s + "," + error.toString());
+            ttsResult.error("FlutterChannel.AISpeechError",error.toString(),null);
             ttsResult=null;
         }
         @Override public void onReady(String s) {
@@ -157,6 +157,7 @@ public class AiSpeech extends Speech{
 
         @Override public void onError(AIError aiError) {
             Log.e("Tag", "error:" + aiError.toString());
+            asrEngine.cancel();
             asrResult.error("FlutterChannel.AISpeechError",aiError.toString(),null);
             asrResult = null;
         }

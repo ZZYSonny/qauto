@@ -17,7 +17,9 @@ enum RecognitionResult{
   ANSWER_CORRECT,
   ANSWER_WRONG,
   ANSWER_UNSURE,
+  ANSWER_NOSOUND
   //CONTROL_STATS,
   //CONTROL_EXIT,
+  //CONTROL_ERROR,
   //Control类型应当在Audio里处理
 }
