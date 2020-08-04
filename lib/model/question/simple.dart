@@ -56,13 +56,13 @@ class SimpleQuestion extends Question {
   }
 
   Future<bool> judge() async {
-    await Global.audio.readSentence(_audioSentence);
-    return await Global.audio.listenForSentences([_expectedAnswer, "我不会"]) == 0;
+    await Global.audio.speak(_audioSentence);
+    return await Global.audio.listen(_expectedAnswer) == RecognitionResult.ANSWER_CORRECT;
   }
 
   Future<void> onResult(bool res) async {
-    if(res) await Global.audio.readSentence("答对了");
-    else await Global.audio.readSentence("答错了");
+    if(res) await Global.audio.speak("答对了");
+    else await Global.audio.speak("答错了");
     
   }
 }

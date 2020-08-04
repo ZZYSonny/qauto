@@ -3,6 +3,7 @@ library libquestion;
 import 'dart:async';
 import 'dart:core';
 import 'package:qauto/etc/all.dart' show Global;
+import 'package:qauto/user/all.dart';
 
 //Question parts
 part 'question/simple.dart';

@@ -20,7 +20,7 @@ class TestAudioController extends AudioController{
     Future.delayed(Duration(milliseconds: 600));
 
   bool _readLock = false;
-  Future<void> readSentence(String sentence) async {
+  Future<void> speak(String sentence) async {
     if (_readLock) {
       throw Future.error("有两个毒瘤在朗读句子");
     } else {
@@ -31,13 +31,12 @@ class TestAudioController extends AudioController{
     }
   }
 
-  Future<int> listenForSentences(List<String> expectedAnswers,
-      [bool allowNoResult = true,int testFixedResult = -1]) async {
-    int id;
-    if(testFixedResult==-1) id = Global.randInt(expectedAnswers.length);
-    else id = testFixedResult;
-    await fakeAudioDelay();
-    log("Audio:Answer:" + expectedAnswers.asMap()[id]);
-    return id;
+  Future<RecognitionResult> listen(String expectedAnswer) async{
+    int id = Global.randInt(RecognitionResult.values.length);
+    RecognitionResult result = RecognitionResult.values[id];
+    if(result==RecognitionResult.ANSWER_CORRECT) log("Audio:Answer:$expectedAnswer");
+    else log("Audio:Answer:我不会");
+    fakeAudioDelay();
+    return result;
   }
 }
