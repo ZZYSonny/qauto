@@ -1,8 +1,8 @@
 part of 'package:qauto/user/all.dart';
 
-class TestQuestionPageState extends QuestionPageState{
-  TestQuestionPageState(){
-    Global.page=this;
+class TestQuestionPageState extends QuestionPageState {
+  TestQuestionPageState() {
+    Global.page = this;
   }
   @override
   void showQuestion(String caption, String detail) {
@@ -13,11 +13,13 @@ class TestQuestionPageState extends QuestionPageState{
 }
 
 ///通过log来模拟声音输出和回答
-class TestAudioController extends AudioController{
-  Future<bool> init() async {return true;}
+class TestAudioController extends AudioController {
+  Future<bool> init() async {
+    return true;
+  }
 
   Future<void> fakeAudioDelay() async =>
-    Future.delayed(Duration(milliseconds: 600));
+      Future.delayed(Duration(milliseconds: 600));
 
   bool _readLock = false;
   Future<void> speak(String sentence) async {
@@ -31,11 +33,13 @@ class TestAudioController extends AudioController{
     }
   }
 
-  Future<RecognitionResult> listen(String expectedAnswer) async{
+  Future<RecognitionResult> recognize(String expectedAnswer) async {
     int id = Global.randInt(RecognitionResult.values.length);
     RecognitionResult result = RecognitionResult.values[id];
-    if(result==RecognitionResult.ANSWER_CORRECT) log("Audio:Answer:$expectedAnswer");
-    else log("Audio:Answer:我不会");
+    if (result == RecognitionResult.ANSWER_CORRECT)
+      log("Audio:Answer:$expectedAnswer");
+    else
+      log("Audio:Answer:我不会");
     fakeAudioDelay();
     return result;
   }

@@ -89,7 +89,7 @@ public class AiSpeech extends Speech{
         asrIntent.setCloudVadEnable(false);
         //asrIntent.setPauseTime(500);
         //asrIntent.setWaitingTimeout(5000);
-        asrIntent.setNoSpeechTimeOut(3000);
+        asrIntent.setNoSpeechTimeOut(4000);
         asrIntent.setSaveAudioPath(cacheDir + "/aispeech/stt");
     }
 

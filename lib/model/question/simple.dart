@@ -9,11 +9,11 @@ abstract class Question {
 abstract class Questionable {
   Question toQuestion();
   static Questionable fromJSON(Map<String, dynamic> json) {
-    switch (json['type']) {
-      case 'group':
+    switch (json['类型']) {
+      case '问题组':
         return new QuestionableGroup.fromJSON(json);
-      case 'poem':
-        return new Poem.fromJSON(json);
+      case '诗':
+        return new Shi.fromJSON(json);
       default:
         throw Exception("No such type");
     }
@@ -33,14 +33,14 @@ abstract class Questionable {
 class SimpleQuestion extends Question {
   String _displayCaption;
   String _displayDetail;
-  String _audioSentence;
-  String _expectedAnswer;
+  String _questionAudio;
+  String _questionAnswer;
 
   SimpleQuestion(
     this._displayCaption,
     this._displayDetail,
-    this._audioSentence,
-    this._expectedAnswer,
+    this._questionAudio,
+    this._questionAnswer,
   );
 
   Future<bool> execute() async {
@@ -56,13 +56,15 @@ class SimpleQuestion extends Question {
   }
 
   Future<bool> judge() async {
-    await Global.audio.speak(_audioSentence);
-    return await Global.audio.listen(_expectedAnswer) == RecognitionResult.ANSWER_CORRECT;
+    await Global.audio.speak(_questionAudio);
+    return await Global.audio.recognize(_questionAnswer) ==
+        RecognitionResult.ANSWER_CORRECT;
   }
 
   Future<void> onResult(bool res) async {
-    if(res) await Global.audio.speak("答对了");
-    else await Global.audio.speak("答错了");
-    
+    if (res)
+      await Global.audio.speak("答对了");
+    else
+      await Global.audio.speak("答错了");
   }
 }

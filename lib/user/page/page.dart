@@ -59,14 +59,7 @@ class QuestionPageState extends State<QuestionPage> {
                   askFromFile("sample");
                 },
                 child: const Text('开始', style: TextStyle(fontSize: 20)),
-              ),
-              RaisedButton(
-                onPressed: () {
-                  //TODO:Test Only
-                  log("I can still move");
-                },
-                child: const Text('开始', style: TextStyle(fontSize: 20)),
-              ),
+              )
             ],
           ),
         ));

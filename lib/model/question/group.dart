@@ -1,5 +1,6 @@
 part of 'package:qauto/model/all.dart';
 
+///提问一组问题，并且能够应用不同策略
 class QuestionGroup extends Question{
   List<Question> questions;
   String strategy;

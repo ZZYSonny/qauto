@@ -7,6 +7,7 @@ import 'package:qauto/user/all.dart';
 
 //Question parts
 part 'question/simple.dart';
+part 'question/interactive.dart';
 part 'question/group.dart';
 part 'question/controller/sequential.dart';
 

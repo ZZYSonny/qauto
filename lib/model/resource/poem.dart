@@ -1,25 +1,33 @@
 part of 'package:qauto/model/all.dart';
 
 ///接收一个含有一句诗词及标点的字符串，并提供一些功能
-class Verse extends Questionable{
+class ShiJu extends Questionable{
   String rawVerse;
   ///奇数位为诗句，偶数位是标点
   List<String> brokeVerse;
-  Verse(this.rawVerse){
-    brokeVerse = rawVerse.split(new RegExp(r"(?<=[，|。|!])|(?=[，|。|!])"));
+  ShiJu(this.rawVerse){
+    brokeVerse = rawVerse.split(new RegExp(r"(?<=[，|。|！])|(?=[，|。|！])"));
+    assert(brokeVerse.length==4);
+    assert(brokeVerse[1].length==1);
+    assert(brokeVerse[3].length==1);
   }
 
   final String blankLine = "_____";
   @override
   Question toQuestion(){
-    int n=brokeVerse.length;
-    int chosenid=Global.randInt((n/2).truncate().toInt())*2;
-    String expectedAnswer = brokeVerse[chosenid];
-    brokeVerse[chosenid] = blankLine;
-    String displayDetail = brokeVerse.join();
-    brokeVerse[chosenid] = expectedAnswer;
-    String audioSentence = "问题开始";
-    return new SimpleQuestion( "填写上下文", displayDetail, audioSentence, expectedAnswer);
+    String displayDetail;
+    String questionAnswer;
+    String questionAudio;
+    if(Global.randInt(2)==0){
+      displayDetail = blankLine + brokeVerse[1] + "\n" + brokeVerse[2] + brokeVerse[3];
+      questionAnswer = brokeVerse[0];
+      questionAudio = brokeVerse[2] + "的前一句是？";
+    }else{
+      displayDetail = brokeVerse[0] + brokeVerse[1] + "\n" + blankLine + brokeVerse[3];
+      questionAnswer = brokeVerse[2];
+      questionAudio = brokeVerse[0] + "的后一句是？";
+    }
+    return InteractiveQuestion("填写上下文", displayDetail, questionAudio, questionAnswer, rawVerse);
     //TODO: 提问有[]的字
   }
 }
@@ -27,25 +35,25 @@ class Verse extends Questionable{
 ///完整记录一个诗词，并且能够从这个生成问题
 ///JSON定义：
 ///{
-/// "type":"poem/文言文",
-/// "title":"诗词名",
-/// "author":"作者名",
-/// "strategy",".../Smart",
-/// "content": [
+/// "类型":"诗",
+/// "标题":"诗词名",
+/// "作者":"作者名",
+/// "策略",".../Smart",
+/// "内容": [
 ///   "被分开一句一句的诗，其中被[]起来的是容易写错的字，会额外问问题" 
 /// ] 或者是 一个字符串
 ///}
-class Poem extends Questionable{
+class Shi extends Questionable{
   String title;
   String author;
   String strategy;
-  List<Verse> phrase = [];
+  List<ShiJu> phrase = [];
 
-  Poem.fromJSON(Map<String, dynamic> json)
-      : this.title = json['title'],
-        this.author = json['author'],
-        this.strategy = json['strategy'],
-        this.phrase = List<String>.from(json['content']).map((x)=>(new Verse(x))).toList();
+  Shi.fromJSON(Map<String, dynamic> json)
+      : this.title = json['标题'],
+        this.author = json['作者'],
+        this.strategy = json['策略'],
+        this.phrase = List<String>.from(json['内容']).map((x)=>(new ShiJu(x))).toList();
 
   @override
   Question toQuestion() {
