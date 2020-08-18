@@ -1,32 +1,40 @@
 package com.example.qauto;
 
 import android.Manifest;
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
+
+import java.io.InputStream;
 
 import io.flutter.embedding.android.FlutterActivity;
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodChannel;
+import io.flutter.plugin.common.MethodChannel.Result;
 
 
-
-public class MainActivity extends FlutterActivity{
-    private static final String CHANNEL = "com.example.qauto/aispeech";
-    Speech speech = new AiSpeech();
-    @Override public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
+public class MainActivity extends FlutterActivity {
+    Speech speech;
+    Result permissionResult;
+    @Override
+    public void configureFlutterEngine(@NonNull FlutterEngine flutterEngine) {
         super.configureFlutterEngine(flutterEngine);
-        new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), CHANNEL)
-                .setMethodCallHandler(
-                        (call, result) -> {
+        //初始化speech
+        speech = new AiSpeech(getApplicationContext());
+        //语音API的MethodChannel
+        new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "com.example.qauto/speech")
+                .setMethodCallHandler((call, result) -> speech.dispatch(call, result));
+        //获取OpenWith Intent的MethodChannel
+        new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "com.example.qauto/file")
+                .setMethodCallHandler((call, result) -> {
                             switch (call.method) {
-                                case "init":
-                                    requestPerms();
-                                    speech.init(getApplicationContext(),result);
+                                case "getIntentFileContent":
+                                    result.success(readIntentFileContent());
                                     break;
-                                case "speak":
-                                    speech.speak(call.argument("text"),result);
-                                    break;
-                                case "listen":
-                                    speech.listen(result);
+                                case "requestAllPermission":
+                                    requestAllPermission(result);
                                     break;
                                 default:
                                     result.notImplemented();
@@ -36,8 +44,31 @@ public class MainActivity extends FlutterActivity{
                 );
     }
 
-    private void requestPerms(){
-        String[] perms = {
+    private String readIntentFileContent() {
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+        if (Intent.ACTION_VIEW.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                try {
+                    Uri uri = intent.getData();
+                    assert (uri != null);
+                    InputStream is = getContentResolver().openInputStream(uri);
+                    byte[] buffer = new byte[is.available()];
+                    is.read(buffer);
+                    return new String(buffer);
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+        }
+        return null;
+    }
+
+    private void requestAllPermission(Result result) {
+        assert(permissionResult==null);
+        permissionResult = result;
+        String[] permissions = {
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -46,7 +77,12 @@ public class MainActivity extends FlutterActivity{
                 Manifest.permission.ACCESS_NETWORK_STATE,
                 Manifest.permission.ACCESS_WIFI_STATE
         };
-        requestPermissions(perms,0);
+        requestPermissions(permissions, 0);
+    }
+
+    @Override public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        permissionResult.success(grantResults);
+        permissionResult=null;
     }
 }
-

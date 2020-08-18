@@ -11,8 +11,12 @@ Future<void> askQuestion(Question q) async {
 }
 
 void askFromFile(String filename) async {
-  await Global.audio.init();
   String str = await rootBundle.loadString('assets/$filename.json');
+  await askFromString(str);
+}
+
+Future<void> askFromString(String str) async{
+  await Global.audio.init();
   var jsonResult = json.decode(str);
   var question = Questionable.fromJSON(jsonResult);
   await askQuestion(question.toQuestion());

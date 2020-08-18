@@ -28,16 +28,22 @@ public class AiSpeech extends Speech{
     private Result ttsResult;
     private Result asrResult;
     private File cacheDir;
+    private Context context;
+
+    public AiSpeech(Context _context){
+        context = _context;
+    }
+
     //注册设备
-    public void init(Context context, Result result){
+    public void init(Result result){
         initResult = result;
         cacheDir = context.getExternalCacheDir();
         //产品认证需设置 apiKey, productId, productKey, productSecret
         DUILiteConfig config = new DUILiteConfig(
-                "7dd4827f9b2f7dd4827f9b2f5f281027",
-                "279596193",
-                "ad50e99fc305084aaa95eaabc561e4cc",
-                "304015f73706e80f20b010a650b4447e"
+                "fd6e07bbba54fd6e07bbba545f3b8494\n",
+                "279596536",
+                "883ceea2b13e08056730935daa032c95",
+                "229678678e5c1532ac57170dd17a9c98"
         );
         DUILiteSDK.init(context, config, new DUILiteSDK.InitListener() {
             @Override public void success() {

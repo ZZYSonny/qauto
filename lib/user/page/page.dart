@@ -36,6 +36,12 @@ class QuestionPageState extends State<QuestionPage> {
 
   }
 
+  @override
+  void initState() {
+    super.initState();
+    IntentReceiver.startup();
+  }
+
   ///TODO:慢慢美化
   @override
   Widget build(BuildContext context) {

@@ -1,7 +1,7 @@
 part of 'package:qauto/user/all.dart';
 
 class AISpeechAudioController extends AudioController {
-  static const platform = const MethodChannel('com.example.qauto/aispeech');
+  static const platform = const MethodChannel('com.example.qauto/speech');
 
   //TODO:更多的问题处理
 

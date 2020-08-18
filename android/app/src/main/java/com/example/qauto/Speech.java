@@ -1,13 +1,26 @@
 package com.example.qauto;
-
-import android.content.Context;
-
-import java.io.File;
+import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel.Result;
 
 public abstract class Speech{
-    public abstract void init(Context context, Result result);
+    public abstract void init(Result result);
     public abstract void speak(String text, Result result);
     public abstract void listen(Result result);
+    public void dispatch(MethodCall call,Result result){
+        switch (call.method) {
+            case "init":
+                init(result);
+                break;
+            case "speak":
+                speak(call.argument("text"),result);
+                break;
+            case "listen":
+                listen(result);
+                break;
+            default:
+                result.notImplemented();
+                break;
+        }
 
+    }
 }
