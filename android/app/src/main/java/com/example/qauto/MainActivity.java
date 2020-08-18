@@ -34,7 +34,8 @@ public class MainActivity extends FlutterActivity {
                                     result.success(readIntentFileContent());
                                     break;
                                 case "requestAllPermission":
-                                    requestAllPermission(result);
+                                    requestAllPermission();
+                                    result.success(true);
                                     break;
                                 default:
                                     result.notImplemented();
@@ -65,9 +66,7 @@ public class MainActivity extends FlutterActivity {
         return null;
     }
 
-    private void requestAllPermission(Result result) {
-        assert(permissionResult==null);
-        permissionResult = result;
+    private void requestAllPermission() {
         String[] permissions = {
                 Manifest.permission.RECORD_AUDIO,
                 Manifest.permission.READ_PHONE_STATE,
@@ -78,11 +77,5 @@ public class MainActivity extends FlutterActivity {
                 Manifest.permission.ACCESS_WIFI_STATE
         };
         requestPermissions(permissions, 0);
-    }
-
-    @Override public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        permissionResult.success(grantResults);
-        permissionResult=null;
     }
 }

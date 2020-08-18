@@ -40,7 +40,7 @@ public class AiSpeech extends Speech{
         cacheDir = context.getExternalCacheDir();
         //产品认证需设置 apiKey, productId, productKey, productSecret
         DUILiteConfig config = new DUILiteConfig(
-                "fd6e07bbba54fd6e07bbba545f3b8494\n",
+                "fd6e07bbba54fd6e07bbba545f3b8494",
                 "279596536",
                 "883ceea2b13e08056730935daa032c95",
                 "229678678e5c1532ac57170dd17a9c98"
