@@ -1,8 +1,7 @@
 part of 'package:qauto/model/all.dart';
 
-
-///对语音识别的不同结果做不同的回应
-///达到增强记忆的目的
+///提问一个固定的问题要求回答一个固定的答案
+///判断回答并对不同结果做不同的回应
 class InteractiveQuestion extends Question {
   String _displayCaption;
   String _displayDetail;
@@ -10,20 +9,20 @@ class InteractiveQuestion extends Question {
   String _questionQuickAnswer;
   String _questionFullAnswer;
 
-  //TODO：阴阳人语音包
+  //TODO：语音包
   ///对不同结果的回应
   static const Map<RecognitionResult, String> reaction = {
     RecognitionResult.ANSWER_CORRECT: "答对了",
-    RecognitionResult.ANSWER_WRONG: "答错了，答案应该是",
+    RecognitionResult.ANSWER_WRONG: "答错了,答案应该是",
     RecognitionResult.ANSWER_INCOMPLETE: "卡住了？我来告诉你答案",
     RecognitionResult.ANSWER_NOSOUND: "没声音?再来一次吧",
-    RecognitionResult.ANSWER_UNSURE: "好的，我来告诉你答案"
+    RecognitionResult.ANSWER_UNSURE: "好的,我来告诉你答案"
   };
 
   InteractiveQuestion(this._displayCaption, this._displayDetail,
       this._questionAudio, this._questionQuickAnswer, this._questionFullAnswer);
 
-  ///运行问题，返回第一次回答时是否答对
+  ///运行问题,返回第一次回答时是否答对
   Future<bool> execute() async {
     //Init
     Global.page.showQuestion(_displayCaption, _displayDetail);
@@ -44,7 +43,7 @@ class InteractiveQuestion extends Question {
         await Global.audio.speak(_questionFullAnswer);
         await Global.audio.speak("再试一下吧");
         await Future.delayed(Duration(milliseconds: 2000));
-        //这里先不识别了，怕出锅
+        //这里再试一下就不判断了
         return false;
     }
   }

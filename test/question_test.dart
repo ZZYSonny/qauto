@@ -6,6 +6,7 @@ import 'package:qauto/etc/all.dart';
 
 void main() {
   //set up global stuff
+  // ignore: unused_local_variable
   var testpage = TestQuestionPageState();
   Global.audio = new TestAudioController();
 

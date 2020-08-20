@@ -176,7 +176,7 @@ public class AiSpeech extends Speech{
                     Log.i("Tag", "result JSON = " + aiResult.getResultObject().toString());
                     asrResult.success(aiResult.getResultObject().toString());
                     asrResult = null;
-                    //使用asrEngine.stop()目前不会AudioRecord pause()，所以在获得结果后cancel()
+                    //使用asrEngine.stop()目前不会AudioRecord pause(),所以在获得结果后cancel()
                 }
             }
         }
@@ -184,7 +184,7 @@ public class AiSpeech extends Speech{
         @Override public void onRmsChanged(float v) {}
 
         @Override public void onReadyForSpeech() {
-            Log.i("TAG", "语音引擎就绪，用户可以说话");
+            Log.i("TAG", "语音引擎就绪,用户可以说话");
             beep();
         }
 

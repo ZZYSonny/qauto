@@ -5,6 +5,7 @@ class QuestionPageController extends QuestionPageState{
     Global.page = this;
   }
 
+  ///Init时使用，初始化标题,问题,标题
   void showInit(String caption, String detail, bool button, String titleSuffix) {
     setState(() {
       _title = "背诗自动机："+titleSuffix;
@@ -25,7 +26,7 @@ class QuestionPageController extends QuestionPageState{
   ///TODO:修改结果栏
   void showAnswer() {}
 
-  ///TODO:修改
+  ///TODO:显示结果
   void showStats() {}
 
   Questionable _resource;
@@ -34,6 +35,7 @@ class QuestionPageController extends QuestionPageState{
     _resource.toQuestion().execute();
   }
 
+  ///根据应用的打开状态初始化界面
   void init() async {
     String fileContent = await SystemChannel.getOpenWithContent();
     if (fileContent != null){

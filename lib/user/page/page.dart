@@ -13,6 +13,7 @@ class QuestionPageState extends State<QuestionPage> {
   String _displayDetail = "未选择文件";
   bool _buttonEnabled=false;
 
+  ///开始按钮被按后的反应
   void onStartButton() {}
 
   ///TODO:慢慢美化
