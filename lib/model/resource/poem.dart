@@ -49,7 +49,7 @@ class ShiJu extends Questionable {
   ///奇数位为诗句,偶数位是标点
   List<String> brokeVerse;
   ShiJu(this.rawVerse) {
-    brokeVerse = rawVerse.split(new RegExp(r"(?<=[,|。|！])|(?=[,|。|！])"));
+    brokeVerse = rawVerse.split(new RegExp(r"(?<=[，|。|！])|(?=[，|。|！])"));
     assert(brokeVerse.length == 4);
     assert(brokeVerse[1].length == 1);
     assert(brokeVerse[3].length == 1);
