@@ -55,11 +55,17 @@ class Shi extends Questionable{
   String strategy;
   List<ShiJu> phrase = [];
 
-  Shi.fromJSON(Map<String, dynamic> json)
-      : this.title = json['标题'],
-        this.author = json['作者'],
-        this.strategy = json['策略'],
-        this.phrase = List<String>.from(json['内容']).map((x)=>(new ShiJu(x))).toList();
+  Shi.fromJSON(Map<String, dynamic> json){
+    assert(json.containsKey('标题'));
+    assert(json.containsKey('作者'));
+    assert(json.containsKey('策略'));
+    assert(json.containsKey('内容'));
+    title = json['标题'];
+    author = json['作者'];
+    strategy = json['策略'];
+    phrase = List<String>.from(json['内容']).map((x)=>(new ShiJu(x))).toList();
+    assert(QuestionGroup.strategyMap.containsKey(strategy));
+  }
 
   @override
   Question toQuestion() {

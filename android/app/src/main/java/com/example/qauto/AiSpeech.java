@@ -48,21 +48,22 @@ public class AiSpeech extends Speech{
         DUILiteSDK.init(context, config, new DUILiteSDK.InitListener() {
             @Override public void success() {
                 initEngine();
-                Log.d("TAG", "授权成功! ");
+                Log.d("speech init", "授权成功! ");
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
+                        inited = true;
                         initResult.success(true);
                         initResult = null;
                     }
                 });
             }
             @Override public void error(String errorCode,String errorInfo) {
-                Log.d("TAG", "授权失败, errorcode: "+errorCode+",errorInfo:"+errorInfo);
+                Log.d("speech init", "授权失败, errorCode: "+errorCode+",errorInfo:"+errorInfo);
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
                     @Override
                     public void run() {
-                        initResult.error("FlutterChannel.AISpeechError","授权失败",null);
+                        initResult.success(false);
                         initResult = null;
                     }
                 });
@@ -110,23 +111,22 @@ public class AiSpeech extends Speech{
 
     class AITTSListenerImpl implements AITTSListener {
         @Override public void onInit(int status) {
-            Log.d("TAG", "onInit()");
             if (status == AIConstant.OPT_SUCCESS) {
-                Log.i("Tag", "初始化成功!");
+                Log.i("speech speak", "初始化成功!");
             } else {
-                Log.i("Tag", "初始化失败!");
+                Log.i("speech speak", "初始化失败!");
             }
         }
         @Override public void onError(String s, AIError error) {
-            Log.e("TAG", "onError: " + s + "," + error.toString());
+            Log.e("speech init", "onError: " + s + "," + error.toString());
             ttsResult.error("FlutterChannel.AISpeechError",error.toString(),null);
             ttsResult=null;
         }
         @Override public void onReady(String s) {
-            Log.e("TAG", "onReady: " + s);
+            Log.i("speech init", "onReady: ");
         }
         @Override public void onCompletion(String s) {
-            Log.e("TAG", "合成完成 onCompletion: " + s);
+            Log.i("speech init", "合成完成 onCompletion: " + s);
             ttsResult.success(true);
             ttsResult = null;
         }
@@ -153,18 +153,19 @@ public class AiSpeech extends Speech{
 
     private class AICloudASRListenerImpl  implements AIASRListener {
         @Override public void onInit(int status) {
-            Log.i("TAG", "Init result " + status);
+            Log.i("speech listen", "Init result " + status);
             if (status == AIConstant.OPT_SUCCESS) {
                 Log.d("TAG", "初始化成功!");
             } else {
-                Log.d("TAG", "初始化失败!code:" + status);
+                Log.d("TAG", "初始化失败!code:");
             }
         }
 
         @Override public void onError(AIError aiError) {
             Log.e("Tag", "error:" + aiError.toString());
             asrEngine.cancel();
-            asrResult.error("FlutterChannel.AISpeechError",aiError.toString(),null);
+            if(aiError.getErrId()==70904) asrResult.success("");
+            else asrResult.error("FlutterChannel.AISpeechError",aiError.toString(),null);
             asrResult = null;
         }
 
@@ -183,7 +184,7 @@ public class AiSpeech extends Speech{
         @Override public void onRmsChanged(float v) {}
 
         @Override public void onReadyForSpeech() {
-            Log.d("TAG", "语音引擎就绪，用户可以说话");
+            Log.i("TAG", "语音引擎就绪，用户可以说话");
             beep();
         }
 
@@ -192,7 +193,7 @@ public class AiSpeech extends Speech{
         }
 
         @Override public void onEndOfSpeech() {
-            Log.d("TAG", "用户停止说话");
+            Log.i("TAG", "用户停止说话");
             asrEngine.stop();
         }
 

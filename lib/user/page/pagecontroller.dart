@@ -5,8 +5,9 @@ class QuestionPageController extends QuestionPageState{
     Global.page = this;
   }
 
-  void showInit(String caption, String detail, bool button) {
+  void showInit(String caption, String detail, bool button, String titleSuffix) {
     setState(() {
+      _title = "背诗自动机："+titleSuffix;
       _displayCaption = caption;
       _displayDetail = detail;
       _buttonEnabled = button;
@@ -38,10 +39,10 @@ class QuestionPageController extends QuestionPageState{
     if (fileContent != null){
       var resource = await Questionable.fromString(fileContent);
       if (resource == null)
-        showInit("", "文件可能有误\n", false);
+        showInit("", "文件可能有误", false,"");
       else {
         _resource = resource;
-        showInit("", "${resource.getName()}已准备就绪", true);
+        showInit("", "已准备就绪", true,resource.getName());
       }
     }
     await Global.audio.init();

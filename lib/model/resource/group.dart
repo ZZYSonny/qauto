@@ -15,9 +15,13 @@ class QuestionableGroup extends Questionable{
 
   QuestionableGroup(this.rawQuestions);
   QuestionableGroup.fromJSON(Map<String, dynamic> json){
+    assert(json.containsKey('名称'));
+    assert(json.containsKey('策略'));
+    assert(json.containsKey('内容'));
     this.name = json['名称'];
     this.strategy = json['策略'];
     this.rawQuestions = new List<Questionable>.from(json['内容'].map((x)=>(Questionable.fromJSON(x))).toList());
+    assert(QuestionGroup.strategyMap.containsKey(strategy));
   }
   Question toQuestion() {
     List<Question> questions = rawQuestions.map((x)=>(x.toQuestion())).toList();

@@ -6,7 +6,7 @@ class AISpeechAudioController extends AudioController {
   //TODO:更多的问题处理
 
   @override
-  Future<bool> init() async {
+  Future<bool> _init() async {
     return await platform.invokeMethod('init');
   }
 
@@ -24,24 +24,11 @@ class AISpeechAudioController extends AudioController {
 
   @override
   Future<RecognitionResult> recognize(String expectedAnswer) async {
-    String result;
-    try {
-      result = await listen();
-    } on PlatformException catch (e) {
-      var errorMap = await json.decode(e.message);
-      int errorCode = errorMap['errId'];
-      switch (errorCode) {
-        case 70904: //没有检测到语音
-          return RecognitionResult.ANSWER_NOSOUND;
-          break;
-        default:
-          //return RecognitionResult.CONTROL_ERROR;
-          return RecognitionResult.ANSWER_WRONG;
-      }
-    }
+    String result = await listen();
     log(result);
     //TODO:一个更能够应对识别出错的检测
     if (result.contains(expectedAnswer)) return RecognitionResult.ANSWER_CORRECT;
+    else if(result=="") return RecognitionResult.ANSWER_NOSOUND;
     else if(expectedAnswer.contains(result)) return RecognitionResult.ANSWER_INCOMPLETE;
     else return RecognitionResult.ANSWER_WRONG;
   }

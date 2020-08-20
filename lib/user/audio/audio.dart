@@ -1,8 +1,13 @@
 part of 'package:qauto/user/all.dart';
 
-///!!!这里的大部分函数都应该是async的
 abstract class AudioController {
-  Future<bool> init();
+  Future<bool> _init();
+
+  ///初始化直到成功
+  Future<void> init() async {
+    SystemChannel.requestPermssion();
+    while (!(await _init())) {}
+  }
 
   ///播放一句话，并且在播放接触后返回
   ///同一时间应该最多只有一个在跑
@@ -19,8 +24,4 @@ enum RecognitionResult {
   ANSWER_INCOMPLETE,
   ANSWER_UNSURE,
   ANSWER_NOSOUND
-  //CONTROL_STATS,
-  //CONTROL_EXIT,
-  //CONTROL_ERROR,
-  //Control类型应当在Audio里处理
 }

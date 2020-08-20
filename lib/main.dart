@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: QuestionPage(title: '背诗自动机'),
+      home: QuestionPage(),
     );
   }
 }

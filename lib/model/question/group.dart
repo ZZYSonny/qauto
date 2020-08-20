@@ -6,27 +6,17 @@ class QuestionGroup extends Question {
   String strategy;
   QuestionGroup(this.questions, this.strategy);
 
+  static var strategyMap = {
+    "顺序全部" : (qs) => new QuestionGroupController(qs,false,false,false),
+    "随机全部" : (qs) => new QuestionGroupController(qs,false,true,false),
+    "顺序部分" : (qs) => new QuestionGroupController(qs,true,false,false),
+    "随机部分" : (qs) => new QuestionGroupController(qs,true,true,false),
+    "智慧"     : (qs) => new QuestionGroupController(qs,false,true,true)
+  };
+
   @override
   Future<bool> execute() async {
-    switch (strategy) {
-      case "顺序全部":
-        await (new QuestionGroupController(this.questions,false,false,false)).execute();
-        break;
-      case "随机全部":
-        await (new QuestionGroupController(this.questions,false,true,false)).execute();
-        break;
-      case "顺序部分":
-        await (new QuestionGroupController(this.questions,true,false,false)).execute();
-        break;
-      case "随机部分":
-        await (new QuestionGroupController(this.questions,true,true,false)).execute();
-        break;
-      case "智慧":
-        await (new QuestionGroupController(this.questions,false,true,true)).execute();
-        break;
-      default:
-        throw Exception("没有对应的运行方式");
-    }
+    await strategyMap[strategy](questions).execute();
     return true;
   }
 }

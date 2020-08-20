@@ -1,14 +1,14 @@
 part of 'package:qauto/user/all.dart';
 
 class QuestionPage extends StatefulWidget {
-  QuestionPage({Key key, this.title}) : super(key: key);
-  final String title;
+  QuestionPage({Key key}) : super(key: key);
 
   @override
   QuestionPageController createState() => QuestionPageController();
 }
 
 class QuestionPageState extends State<QuestionPage> {
+  String _title = "背诗自动机";
   String _displayCaption = "";
   String _displayDetail = "未选择文件";
   bool _buttonEnabled=false;
@@ -19,7 +19,7 @@ class QuestionPageState extends State<QuestionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(widget.title)),
+        appBar: AppBar(title: Text(_title)),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

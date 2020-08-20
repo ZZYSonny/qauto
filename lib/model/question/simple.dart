@@ -10,8 +10,12 @@ abstract class Questionable {
   Question toQuestion();
 
   static Future<Questionable> fromString(String jsonStr) async{
-    var jsonResult = await json.decode(jsonStr);
-    return fromJSON(jsonResult);
+    try{
+      var jsonResult = await json.decode(jsonStr);
+      return fromJSON(jsonResult);
+    } catch (Exception){
+      return null;
+    }
   }
 
   static Questionable fromJSON(Map<String, dynamic> json) {
