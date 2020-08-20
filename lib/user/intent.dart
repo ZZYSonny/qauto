@@ -1,21 +1,13 @@
 part of 'package:qauto/user/all.dart';
 
-class IntentReceiver {
+class SystemChannel {
   static const platform = const MethodChannel('com.example.qauto/file');
 
-  static Future<void> startFromOpenWith() async {
-    String fileContent = await platform.invokeMethod('getIntentFileContent');
-    if (fileContent != null) {
-      askFromString(fileContent);
-    }
+  static Future<String> getOpenWithContent() async {
+    return await platform.invokeMethod('getIntentFileContent');
   }
 
-  static Future<void> requestPermssion() async {
+  static void requestPermssion() async {
     await platform.invokeMethod('requestAllPermission');
-  }
-
-  static Future<void> startup() async {
-    await requestPermssion();
-    await startFromOpenWith();
   }
 }

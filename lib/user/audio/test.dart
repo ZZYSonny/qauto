@@ -1,6 +1,6 @@
 part of 'package:qauto/user/all.dart';
 
-class TestQuestionPageState extends QuestionPageState {
+class TestQuestionPageState extends QuestionPageController {
   TestQuestionPageState() {
     Global.page = this;
   }
@@ -18,8 +18,7 @@ class TestAudioController extends AudioController {
     return true;
   }
 
-  Future<void> fakeAudioDelay() async =>
-      Future.delayed(Duration(milliseconds: 600));
+  void fakeAudioDelay() async => Future.delayed(Duration(milliseconds: 600));
 
   bool _readLock = false;
   Future<void> speak(String sentence) async {

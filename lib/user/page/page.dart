@@ -5,42 +5,15 @@ class QuestionPage extends StatefulWidget {
   final String title;
 
   @override
-  QuestionPageState createState() => QuestionPageState();
+  QuestionPageController createState() => QuestionPageController();
 }
 
 class QuestionPageState extends State<QuestionPage> {
-  QuestionPageState(){
-    //注册自己为问题窗口
-    Global.page=this;
-  }
+  String _displayCaption = "";
+  String _displayDetail = "未选择文件";
+  bool _buttonEnabled=false;
 
-  //tmp
-  String _displayCaption = "标题";
-  String _displayDetail = "问题";
-
-  ///修改当前显示的问题,同时初始化结果栏
-  void showQuestion(String caption, String detail) {
-    setState(() {
-      _displayCaption = caption;
-      _displayDetail = detail;
-    });
-  }
-
-  ///TODO:修改结果栏
-  void showAnswer(){
-
-  }
-
-  ///TODO:修改
-  void showStats(){
-
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    IntentReceiver.startup();
-  }
+  void onStartButton() {}
 
   ///TODO:慢慢美化
   @override
@@ -52,19 +25,17 @@ class QuestionPageState extends State<QuestionPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                '$_displayCaption',
+                _displayCaption,
                 textAlign: TextAlign.left,
               ),
               Text(
-                '$_displayDetail',
+                _displayDetail,
                 style: Theme.of(context).textTheme.headline4,
                 textAlign: TextAlign.center,
               ),
               RaisedButton(
-                onPressed: () {
-                  askFromFile("sample");
-                },
-                child: const Text('开始', style: TextStyle(fontSize: 20)),
+                onPressed: _buttonEnabled?onStartButton:null,
+                child: Text("开始", style: TextStyle(fontSize: 20)),
               )
             ],
           ),

@@ -30,6 +30,12 @@ class ShiJu extends Questionable{
     return InteractiveQuestion("填写上下文", displayDetail, questionAudio, questionAnswer, rawVerse);
     //TODO: 提问有[]的字
   }
+
+  @override
+  String getName() {
+    return "";
+  }
+  
 }
 
 ///完整记录一个诗词，并且能够从这个生成问题
@@ -60,5 +66,10 @@ class Shi extends Questionable{
     var questions = phrase.map((x)=>x.toQuestion()).toList();
     //TODO:提问作者、题目
     return new QuestionGroup(questions,this.strategy);
+  }
+
+  @override
+  String getName() {
+    return title;
   }
 }

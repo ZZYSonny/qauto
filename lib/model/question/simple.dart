@@ -8,6 +8,12 @@ abstract class Question {
 
 abstract class Questionable {
   Question toQuestion();
+
+  static Future<Questionable> fromString(String jsonStr) async{
+    var jsonResult = await json.decode(jsonStr);
+    return fromJSON(jsonResult);
+  }
+
   static Questionable fromJSON(Map<String, dynamic> json) {
     switch (json['类型']) {
       case '问题组':
@@ -18,15 +24,7 @@ abstract class Questionable {
         throw Exception("No such type");
     }
   }
-
-  /*
-  应该在JSONLoader里面搞这一步的
-  static Future<Questionable> fromFile(String filename) async {
-    String str = await rootBundle.loadString('assets/$filename.json');
-    var jsonResult = json.decode(str);
-    return fromJSON(jsonResult);
-  }
-  */
+  String getName();
 }
 
 ///简单的问题，只期望一个固定的答案或者控制语句

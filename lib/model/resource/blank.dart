@@ -13,4 +13,10 @@ class BlankedQuestion extends Questionable{
     throw UnimplementedError();
   }
 
+  @override
+  String getName() {
+    // TODO: implement getName
+    throw UnimplementedError();
+  }
+
 }
