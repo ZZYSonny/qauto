@@ -1,13 +1,17 @@
 part of 'package:qauto/user/all.dart';
 
 abstract class AudioController {
-  Future<bool> _init();
+  Future<bool> _auth();
 
   ///初始化直到成功
-  Future<void> init() async {
+  Future<void> auth() async {
     SystemChannel.requestPermssion();
-    while (!(await _init())) {}
+    await _auth();
   }
+
+  Future<void> initEngine();
+
+  Future<void> destoryEngine();
 
   ///播放一句话,并且在播放接触后返回
   ///同一时间应该最多只有一个在跑

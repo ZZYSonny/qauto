@@ -1,14 +1,14 @@
 part of 'package:qauto/user/all.dart';
 
-class QuestionPageController extends QuestionPageState{
+class QuestionPageController extends QuestionPageState {
   QuestionPageController() {
     Global.page = this;
   }
 
   ///Init时使用，初始化标题,问题,标题
-  void showInit(String caption, String detail, bool button, String titleSuffix) {
+  void showInit(String caption, String detail, bool button, String titleSuffix){
     setState(() {
-      _title = "背诗自动机："+titleSuffix;
+      _title = "背诗自动机：" + titleSuffix;
       _displayCaption = caption;
       _displayDetail = detail;
       _buttonEnabled = button;
@@ -32,27 +32,31 @@ class QuestionPageController extends QuestionPageState{
   Questionable _resource;
   @override
   void onStartButton() {
-    _resource.toQuestion().execute();
+    askQuestion(_resource.toQuestion());
   }
 
   ///根据应用的打开状态初始化界面
   void init() async {
-    String fileContent = await SystemChannel.getOpenWithContent();
-    if (fileContent != null){
+    String fileContent = await prepare();
+    if (fileContent != null) {
       var resource = await Questionable.fromString(fileContent);
-      if (resource == null)
-        showInit("", "文件可能有误", false,"");
+      if (resource == null) showInit("", "文件可能有误", false, "");
       else {
         _resource = resource;
-        showInit("", "已准备就绪", true,resource.getName());
+        showInit("", "已准备就绪", true, resource.getName());
       }
     }
-    await Global.audio.init();
   }
 
   @override
   void initState() {
     super.initState();
     init();
+  }
+
+  @override
+  void dispose(){
+    super.dispose();
+    Global.audio.destoryEngine();
   }
 }

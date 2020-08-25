@@ -7,14 +7,14 @@ class QuestionPage extends StatefulWidget {
   QuestionPageController createState() => QuestionPageController();
 }
 
-class QuestionPageState extends State<QuestionPage> {
+abstract class QuestionPageState extends State<QuestionPage> {
   String _title = "背诗自动机";
   String _displayCaption = "";
   String _displayDetail = "未选择文件";
   bool _buttonEnabled=false;
 
   ///开始按钮被按后的反应
-  void onStartButton() {}
+  void onStartButton();
 
   ///TODO:慢慢美化
   @override

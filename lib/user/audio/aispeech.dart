@@ -3,11 +3,9 @@ part of 'package:qauto/user/all.dart';
 class AISpeechAudioController extends AudioController {
   static const platform = const MethodChannel('com.example.qauto/speech');
 
-  //TODO:麦克风权限处理
-
   @override
-  Future<bool> _init() async {
-    return await platform.invokeMethod('init');
+  Future<bool> _auth() async {
+    return await platform.invokeMethod('auth');
   }
 
   @override
@@ -32,4 +30,16 @@ class AISpeechAudioController extends AudioController {
     else if(expectedAnswer.contains(result)) return RecognitionResult.ANSWER_INCOMPLETE;
     else return RecognitionResult.ANSWER_WRONG;
   }
+
+  @override
+  Future<void> initEngine() async{
+    await platform.invokeMethod('initEngine');
+  }
+
+
+  @override
+  Future<void> destoryEngine() async{
+    await platform.invokeMethod('destroyEngine');
+  }
+
 }
