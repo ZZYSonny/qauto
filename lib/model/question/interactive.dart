@@ -23,18 +23,19 @@ class InteractiveQuestion extends Question {
       this._questionAudio, this._questionQuickAnswer, this._questionFullAnswer);
 
   ///运行问题,返回第一次回答时是否答对
-  Future<bool> execute() async {
+  Future<QuestionStats> execute() async {
     //Init
     Global.page.showQuestion(_displayCaption, _displayDetail);
 
     //Main
     await Global.audio.speak(_questionAudio);
     var res = await Global.audio.recognize(_questionQuickAnswer);
+    Global.page.showAnswer(_questionFullAnswer);
     await Global.audio.speak(reaction[res]);
 
     switch (res) {
       case RecognitionResult.ANSWER_CORRECT:
-        return true;
+        return QuestionStats.single(true);
         break;
       case RecognitionResult.ANSWER_NOSOUND:
         return execute();
@@ -44,7 +45,7 @@ class InteractiveQuestion extends Question {
         await Global.audio.speak("再试一下吧");
         await Future.delayed(Duration(milliseconds: 2000));
         //这里再试一下就不判断了
-        return false;
+        return QuestionStats.single(false);
     }
   }
 }

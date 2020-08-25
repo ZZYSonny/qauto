@@ -12,7 +12,7 @@ abstract class QuestionPageState extends State<QuestionPage> {
   String _displayCaption = "";
   String _displayDetail = "未选择文件";
   bool _buttonEnabled=false;
-
+  String _statsDetail = "0 / 0";
   ///开始按钮被按后的反应
   void onStartButton();
 
@@ -32,6 +32,11 @@ abstract class QuestionPageState extends State<QuestionPage> {
               Text(
                 _displayDetail,
                 style: Theme.of(context).textTheme.headline4,
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                _statsDetail,
+                style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center,
               ),
               RaisedButton(

@@ -61,6 +61,7 @@ class ShiJu extends Questionable {
     String displayDetail;
     String questionAnswer;
     String questionAudio;
+    String displayVerse = rawVerse.replaceAll("，", "，\n");
     if (Global.randInt(2) == 0) {
       displayDetail =
           blankLine + brokeVerse[1] + "\n" + brokeVerse[2] + brokeVerse[3];
@@ -73,7 +74,7 @@ class ShiJu extends Questionable {
       questionAudio = brokeVerse[0] + "的后一句是？";
     }
     return InteractiveQuestion(
-        "填写上下文", displayDetail, questionAudio, questionAnswer, rawVerse);
+        "填写上下文", displayDetail, questionAudio, questionAnswer, displayVerse);
     //TODO: 提问有[]的字
   }
 

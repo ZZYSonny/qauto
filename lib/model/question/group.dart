@@ -15,9 +15,8 @@ class QuestionGroup extends Question {
   };
 
   @override
-  Future<bool> execute() async {
-    await strategyMap[strategy](questions).execute();
-    return true;
+  Future<QuestionStats> execute() async {
+    return await strategyMap[strategy](questions).execute();
   }
 }
 
@@ -36,16 +35,16 @@ class QuestionGroupController {
   }
 
   ///按照一定顺序运行List中的问题
-  Future<void> execute() async {
+  Future<QuestionStats> execute() async {
+    QuestionStats stats = QuestionStats.empty();
     for (var nowq in questions) {
-      bool res = await nowq.execute();
-      if (smart && res && Global.randBool(0.6)) break;
+      var res = await nowq.execute();
+      stats.addStats(res);
+      if (smart && stats.smartStop()) {
+        await Global.audio.speak("答的不错");
+        break;
+      }
     }
-  }
-
-  ///显示统计数据
-  String showStats() {
-    // TODO: implement showStats
-    return "还没写";
+    return stats;
   }
 }

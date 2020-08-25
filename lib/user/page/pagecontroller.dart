@@ -23,11 +23,19 @@ class QuestionPageController extends QuestionPageState {
     });
   }
 
-  ///TODO:修改结果栏
-  void showAnswer() {}
+  ///修改结果栏
+  void showAnswer(String detail) {
+    setState(() {
+      _displayDetail = detail;
+    });
+  }
 
-  ///TODO:显示结果
-  void showStats() {}
+  ///更新统计数据
+  void showStats(String stats) {
+    setState(() {
+      _statsDetail = stats;
+    });
+  }
 
   Questionable _resource;
   @override

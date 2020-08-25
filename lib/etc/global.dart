@@ -8,7 +8,7 @@ class Global {
   ///语言控制,提供语音合成和识别
   static AudioController audio = new AISpeechAudioController();
   static Random rng = new Random();
-
+  static QuestionStats stats = QuestionStats.empty();
   ///生成一个[0,n)的数字
   static int randInt(int n) {
     return rng.nextInt(n);

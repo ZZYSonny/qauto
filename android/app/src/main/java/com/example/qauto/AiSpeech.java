@@ -86,6 +86,7 @@ public class AiSpeech extends Speech{
 
     public void destroyEngine() {
         ttsEngine.destroy();
+        asrEngine.cancel();
         asrEngine.destroy();
         status = SpeechStatus.AUTHED_NO_ENGINE;
     }
@@ -181,7 +182,6 @@ public class AiSpeech extends Speech{
             if (aiResult.isLast()) {
                 if (aiResult.getResultType() == AIConstant.AIENGINE_MESSAGE_TYPE_JSON) {
                     asrEngine.stop();
-                    Log.i(TAG, "result JSON = " + aiResult.getResultObject().toString());
                     asrResult.success(aiResult.getResultObject().toString());
                     asrResult = null;
                 }
