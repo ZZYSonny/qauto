@@ -5,11 +5,17 @@ Future<String> prepare() async {
   return await SystemChannel.getOpenWithContent();
 }
 
-void askQuestion(Question q) async {
+Future<void> askQuestion(Question q) async {
   Global.stats.clear();
   await Global.audio.initEngine();
-  await q.execute();
-  await Global.audio.speak("问题结束。");
-  await Global.audio.speak(Global.stats.toAudioText());
+  try{
+    await q.execute();
+  }catch(Exception){
+    //中间可能被打断，引擎被销毁然后报错
+  }
+  await questionSummary();
+}
+
+Future<void> questionSummary() async{
   await Global.audio.destoryEngine();
 }

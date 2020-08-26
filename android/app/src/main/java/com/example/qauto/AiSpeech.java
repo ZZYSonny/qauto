@@ -85,9 +85,11 @@ public class AiSpeech extends Speech{
     }
 
     public void destroyEngine() {
-        ttsEngine.destroy();
-        asrEngine.cancel();
-        asrEngine.destroy();
+        if(ttsEngine!=null) ttsEngine.destroy();
+        if(asrEngine!=null) {
+            asrEngine.cancel();
+            asrEngine.destroy();
+        }
         status = SpeechStatus.AUTHED_NO_ENGINE;
     }
 

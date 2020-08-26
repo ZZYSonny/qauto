@@ -1,17 +1,18 @@
 part of 'package:qauto/user/all.dart';
 
-class QuestionPageController extends QuestionPageState {
+class QuestionPageController extends QuestionPageState{
   QuestionPageController() {
     Global.page = this;
   }
 
   ///Init时使用，初始化标题,问题,标题
-  void showInit(String caption, String detail, bool button, String titleSuffix){
+  void showInit(
+      String caption, String detail, PageState button, String titleSuffix) {
     setState(() {
       _title = "背诗自动机：" + titleSuffix;
       _displayCaption = caption;
       _displayDetail = detail;
-      _buttonEnabled = button;
+      _state = button;
     });
   }
 
@@ -40,7 +41,16 @@ class QuestionPageController extends QuestionPageState {
   Questionable _resource;
   @override
   void onStartButton() {
+    assert(_state == PageState.INITED_NOT_STARTED);
+    setState(() {_state = PageState.STARTED;});
     askQuestion(_resource.toQuestion());
+  }
+
+  @override
+  void onStopButton(){
+    assert(_state == PageState.STARTED);
+    showInit("", "已停止", PageState.INITED_NOT_STARTED, "已停止");
+    questionSummary();
   }
 
   ///根据应用的打开状态初始化界面
@@ -48,10 +58,11 @@ class QuestionPageController extends QuestionPageState {
     String fileContent = await prepare();
     if (fileContent != null) {
       var resource = await Questionable.fromString(fileContent);
-      if (resource == null) showInit("", "文件可能有误", false, "");
+      if (resource == null)
+        showInit("", "文件可能有误", PageState.NOT_INITED, "");
       else {
         _resource = resource;
-        showInit("", "已准备就绪", true, resource.getName());
+        showInit("", "已准备就绪", PageState.INITED_NOT_STARTED , resource.getName());
       }
     }
   }
@@ -63,8 +74,8 @@ class QuestionPageController extends QuestionPageState {
   }
 
   @override
-  void dispose(){
-    super.dispose();
+  void dispose() {
     Global.audio.destoryEngine();
+    super.dispose();
   }
 }

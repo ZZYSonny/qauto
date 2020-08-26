@@ -11,10 +11,31 @@ abstract class QuestionPageState extends State<QuestionPage> {
   String _title = "背诗自动机";
   String _displayCaption = "";
   String _displayDetail = "未选择文件";
-  bool _buttonEnabled=false;
+  PageState _state = PageState.NOT_INITED;
   String _statsDetail = "0 / 0";
   ///开始按钮被按后的反应
   void onStartButton();
+  void onStopButton();
+
+  Widget controlButton(){
+    switch(_state){
+      case PageState.NOT_INITED:
+        return RaisedButton(
+                onPressed: null,
+                child: Text("开始", style: TextStyle(fontSize: 20)),
+              );
+      case PageState.INITED_NOT_STARTED:
+        return RaisedButton(
+                onPressed: onStartButton,
+                child: Text("开始", style: TextStyle(fontSize: 20)),
+              );
+      case PageState.STARTED:
+        return RaisedButton(
+                onPressed: onStopButton,
+                child: Text("结束", style: TextStyle(fontSize: 20)),
+              );
+    }
+  }
 
   ///TODO:慢慢美化
   @override
@@ -39,10 +60,7 @@ abstract class QuestionPageState extends State<QuestionPage> {
                 style: Theme.of(context).textTheme.headline6,
                 textAlign: TextAlign.center,
               ),
-              RaisedButton(
-                onPressed: _buttonEnabled?onStartButton:null,
-                child: Text("开始", style: TextStyle(fontSize: 20)),
-              )
+              controlButton()
             ],
           ),
         ));

@@ -45,6 +45,12 @@ public class MainActivity extends FlutterActivity {
                 );
     }
 
+    @Override
+    public void onStop(){
+        speech.destroyEngine();
+        super.onStop();
+    }
+
     private String readIntentFileContent() {
         Intent intent = getIntent();
         String action = intent.getAction();
