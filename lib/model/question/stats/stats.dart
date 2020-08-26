@@ -45,6 +45,7 @@ class QuestionStats {
   }
 
   void updateGlobalPage() {
+    assert(this==Global.stats);
     Global.page.setStats("$totalCorrect / ${totalProblem()}");
   }
 

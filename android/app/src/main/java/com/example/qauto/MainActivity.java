@@ -26,45 +26,11 @@ public class MainActivity extends FlutterActivity {
         //语音API的MethodChannel
         new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "com.example.qauto/speech")
                 .setMethodCallHandler((call, result) -> speech.dispatch(call, result));
-        //获取OpenWith Intent的MethodChannel
-        new MethodChannel(flutterEngine.getDartExecutor().getBinaryMessenger(), "com.example.qauto/file")
-                .setMethodCallHandler((call, result) -> {
-                            switch (call.method) {
-                                case "getIntentFileContent":
-                                    result.success(readIntentFileContent());
-                                    break;
-                                default:
-                                    result.notImplemented();
-                                    break;
-                            }
-                        }
-                );
     }
 
     @Override
     public void onStop(){
         speech.destroyEngine();
         super.onStop();
-    }
-
-    private String readIntentFileContent() {
-        Intent intent = getIntent();
-        String action = intent.getAction();
-        String type = intent.getType();
-        if (Intent.ACTION_VIEW.equals(action) && type != null) {
-            if ("text/plain".equals(type)) {
-                try {
-                    Uri uri = intent.getData();
-                    assert (uri != null);
-                    InputStream is = getContentResolver().openInputStream(uri);
-                    byte[] buffer = new byte[is.available()];
-                    is.read(buffer);
-                    return new String(buffer);
-                } catch (Exception e) {
-                    return null;
-                }
-            }
-        }
-        return null;
     }
 }

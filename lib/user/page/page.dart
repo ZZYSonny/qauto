@@ -8,13 +8,19 @@ class QuestionPage extends StatefulWidget {
 }
 
 abstract class QuestionPageState extends State<QuestionPage> {
-  String _title = "背诗自动机";
+  ///标题
+  String _title = "";
+  ///问题小字，用于显示问题类型
   String _displayCaption = "";
+  ///问题主要部分
   String _displayDetail = "读取文件中";
+  ///问题状态，用于确保流程正确
   PageState _state = PageState.NOT_INITED;
-  String _statsDetail = "0 / 0";
+  ///显示的正确率
+  String _statsDetail = "";
   ///开始按钮被按后的反应
   void onStartButton();
+  ///停止按钮被按的反应
   void onStopButton();
 
   Widget controlButton(){
@@ -38,11 +44,11 @@ abstract class QuestionPageState extends State<QuestionPage> {
     return null;
   }
 
-  ///TODO:添加录音时的标记
+  ///TODO:添加录音时的图标
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(_title)),
+        appBar: AppBar(title: Text("背诗自动机:$_title")),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -65,5 +71,17 @@ abstract class QuestionPageState extends State<QuestionPage> {
             ],
           ),
         ));
+  }
+  
+  @override
+  void initState() {
+    super.initState();
+    Facade.prepare();
+  }
+
+  @override
+  void dispose(){
+    System.dispose();
+    super.dispose();
   }
 }

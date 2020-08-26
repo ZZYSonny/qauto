@@ -2,22 +2,14 @@ part of 'package:qauto/etc/all.dart';
 
 class Facade {
   static Future<void> prepare() async {
-    IntentChannel.getOpenWithContent()
-        .then((String fileContent) => Global.page.setQuestionResource(fileContent));
+    System.checkOpenWith();
     Global.audio.auth();
-    requestAllPermission();
-  }
-
-  static Future<void> requestAllPermission() async {
-    while (true) {
-      var status = await Permission.microphone.request();
-      assert(!status.isPermanentlyDenied);
-      if (status.isGranted) break;
-    }
+    System.requestPermission();
   }
 
   static Future<void> askQuestion(Question q) async {
     Global.stats.clear();
+    Global.stats.updateGlobalPage();
     try {
       await Global.audio.initEngine();
       await q.execute();
@@ -31,6 +23,6 @@ class Facade {
 
   static Future<void> stopQuestion() async {
     await Global.audio.destoryEngine();
-    Global.page.setAllState(PageState.INITED_NOT_STARTED, "已停止");
+    Global.page.setPageState(PageState.INITED_NOT_STARTED, "已停止");
   }
 }

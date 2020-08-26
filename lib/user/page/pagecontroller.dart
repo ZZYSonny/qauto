@@ -28,9 +28,9 @@ class QuestionPageController extends QuestionPageState {
   }
 
   ///Init时使用，初始化标题,问题,标题
-  void setAllState(PageState state, String detail, [String titleSuffix = ""]) {
+  void setPageState(PageState state, String detail, [String title = ""]) {
     setState(() {
-      _title = "背诗自动机：" + titleSuffix;
+      _title = title;
       _displayCaption = "";
       _displayDetail = detail;
       _state = state;
@@ -40,13 +40,13 @@ class QuestionPageController extends QuestionPageState {
   ///根据应用的打开状态初始化界面
   Future<void> setQuestionResource(String fileContent) async {
     if (fileContent == null)
-      setAllState(PageState.NOT_INITED, "未选择文件");
+      setPageState(PageState.NOT_INITED, "未选择文件");
     else {
       _resource = await Questionable.fromString(fileContent);
       if (_resource == null)
-        setAllState(PageState.NOT_INITED, "文件可能有误");
+        setPageState(PageState.NOT_INITED, "文件可能有误");
       else
-        setAllState(PageState.INITED_NOT_STARTED, "已准备就绪", _resource.getName());
+        setPageState(PageState.INITED_NOT_STARTED, "已准备就绪", _resource.getName());
     }
   }
 
@@ -54,7 +54,7 @@ class QuestionPageController extends QuestionPageState {
   @override
   void onStartButton() {
     assert(_state == PageState.INITED_NOT_STARTED);
-    setAllState(PageState.STARTED, "", _resource.getName());
+    setPageState(PageState.STARTED, "", _resource.getName());
     Facade.askQuestion(_resource.toQuestion());
   }
 
@@ -62,11 +62,5 @@ class QuestionPageController extends QuestionPageState {
   void onStopButton() {
     assert(_state == PageState.STARTED);
     Facade.stopQuestion();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    Facade.prepare();
   }
 }

@@ -54,12 +54,17 @@ public class AiSpeech extends Speech{
     }
 
     public void auth(Result result){
-        authResult = result;
-        cacheDir = context.getExternalCacheDir();
-        DUILiteConfig config = new DUILiteConfig(API_KEY,PRODUCT_ID,PRODUCT_KEY,PRODUCT_SECRET);
-        config.setExtraParameter("DEVICE_ID",DEVICE_ID);
-        config.setExtraParameter("DEVICE_NAME",DEVICE_NAME);
-        DUILiteSDK.init(context, config, new InitListenerImpl());
+        if(DUILiteSDK.isAuthorized(context)) {
+            status = SpeechStatus.AUTHED_NO_ENGINE;
+            result.success(true);
+        } else {
+            authResult = result;
+            cacheDir = context.getExternalCacheDir();
+            DUILiteConfig config = new DUILiteConfig(API_KEY, PRODUCT_ID, PRODUCT_KEY, PRODUCT_SECRET);
+            config.setExtraParameter("DEVICE_ID", DEVICE_ID);
+            config.setExtraParameter("DEVICE_NAME", DEVICE_NAME);
+            DUILiteSDK.init(context, config, new InitListenerImpl());
+        }
     }
 
     public void initEngine(Result result){
