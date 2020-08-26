@@ -6,7 +6,7 @@ class QuestionPageController extends QuestionPageState {
   }
 
   ///修改当前显示的问题,同时初始化结果栏
-  void setQuestion(String caption, String detail) {
+  Future<void> setQuestion(String caption, String detail) async {
     setState(() {
       _displayCaption = caption;
       _displayDetail = detail;
@@ -14,21 +14,21 @@ class QuestionPageController extends QuestionPageState {
   }
 
   ///修改结果栏，
-  void setAnswer(String detail) {
+  Future<void> setAnswer(String detail) async {
     setState(() {
       _displayDetail = detail;
     });
   }
 
   ///更新统计数据
-  void setStats(String stats) {
+  Future<void> setStats(String stats) async{
     setState(() {
       _statsDetail = stats;
     });
   }
 
   ///Init时使用，初始化标题,问题,标题
-  void setPageState(PageState state, String detail, [String title = ""]) {
+  Future<void> setPageState(PageState state, String detail, [String title = ""]) async{
     setState(() {
       _title = title;
       _displayCaption = "";

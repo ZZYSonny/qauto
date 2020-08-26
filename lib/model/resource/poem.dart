@@ -55,7 +55,7 @@ class ShiJu extends Questionable {
     assert(brokeVerse[3].length == 1);
   }
 
-  final String blankLine = "_____";
+  final String blankLine = "_________";
   @override
   Question toQuestion() {
     String displayDetail;

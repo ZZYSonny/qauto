@@ -6,7 +6,7 @@ class TestQuestionPageState extends QuestionPageController {
     Global.page = this;
   }
   @override
-  void setQuestion(String caption, String detail) {
+  Future<void> setQuestion(String caption, String detail) async{
     //修改界面是同时log
     log("Display:Caption:$caption");
     log("Display:Detail:$detail");

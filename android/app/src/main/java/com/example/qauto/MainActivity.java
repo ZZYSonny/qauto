@@ -29,8 +29,8 @@ public class MainActivity extends FlutterActivity {
     }
 
     @Override
-    public void onStop(){
+    public void onDestroy(){
         speech.destroyEngine();
-        super.onStop();
+        super.onDestroy();
     }
 }

@@ -26,7 +26,7 @@ class InteractiveQuestion extends Question {
   Future<QuestionStats> execute() async {
     //Init
     Global.page.setQuestion(_displayCaption, _displayDetail);
-
+    
     //Main
     await Global.audio.speak(_questionAudio);
     var res = await Global.audio.recognize(_questionQuickAnswer);
