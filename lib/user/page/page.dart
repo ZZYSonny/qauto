@@ -48,7 +48,7 @@ abstract class QuestionPageState extends State<QuestionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text("背诗自动机:$_title")),
+        appBar: AppBar(title: Text((_title=="")?"背诗自动机":"背诗自动机:$_title")),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
