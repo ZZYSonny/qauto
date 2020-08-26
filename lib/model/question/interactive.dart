@@ -25,12 +25,12 @@ class InteractiveQuestion extends Question {
   ///运行问题,返回第一次回答时是否答对
   Future<QuestionStats> execute() async {
     //Init
-    Global.page.showQuestion(_displayCaption, _displayDetail);
+    Global.page.setQuestion(_displayCaption, _displayDetail);
 
     //Main
     await Global.audio.speak(_questionAudio);
     var res = await Global.audio.recognize(_questionQuickAnswer);
-    Global.page.showAnswer(_questionFullAnswer);
+    Global.page.setAnswer(_questionFullAnswer);
     await Global.audio.speak(reaction[res]);
 
     switch (res) {

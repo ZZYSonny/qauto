@@ -10,7 +10,7 @@ class QuestionPage extends StatefulWidget {
 abstract class QuestionPageState extends State<QuestionPage> {
   String _title = "背诗自动机";
   String _displayCaption = "";
-  String _displayDetail = "未选择文件";
+  String _displayDetail = "读取文件中";
   PageState _state = PageState.NOT_INITED;
   String _statsDetail = "0 / 0";
   ///开始按钮被按后的反应
@@ -35,9 +35,10 @@ abstract class QuestionPageState extends State<QuestionPage> {
                 child: Text("结束", style: TextStyle(fontSize: 20)),
               );
     }
+    return null;
   }
 
-  ///TODO:慢慢美化
+  ///TODO:添加录音时的标记
   @override
   Widget build(BuildContext context) {
     return Scaffold(

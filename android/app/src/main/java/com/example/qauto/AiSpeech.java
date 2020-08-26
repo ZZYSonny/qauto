@@ -23,10 +23,10 @@ import java.io.File;
 import io.flutter.plugin.common.MethodChannel.Result;
 
 public class AiSpeech extends Speech{
-    private Result authResult;
-    private Result ttsResult;
-    private Result asrResult;
-    private Result initResult;
+    private Result authResult = null;
+    private Result ttsResult = null;
+    private Result asrResult = null;
+    private Result initResult = null;
     private File cacheDir;
     private Context context;
 
@@ -85,11 +85,20 @@ public class AiSpeech extends Speech{
     }
 
     public void destroyEngine() {
-        if(ttsEngine!=null) ttsEngine.destroy();
+        if(ttsEngine!=null) {
+            ttsEngine.stop();
+            ttsEngine.destroy();
+            ttsEngine = null;
+        }
         if(asrEngine!=null) {
             asrEngine.cancel();
+            asrEngine.stop();
             asrEngine.destroy();
+            asrEngine = null;
         }
+        ttsResult = null;
+        asrResult = null;
+        initResult = null;
         status = SpeechStatus.AUTHED_NO_ENGINE;
     }
 
