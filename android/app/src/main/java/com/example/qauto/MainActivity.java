@@ -33,10 +33,6 @@ public class MainActivity extends FlutterActivity {
                                 case "getIntentFileContent":
                                     result.success(readIntentFileContent());
                                     break;
-                                case "requestAllPermission":
-                                    requestAllPermission();
-                                    result.success(true);
-                                    break;
                                 default:
                                     result.notImplemented();
                                     break;
@@ -70,12 +66,5 @@ public class MainActivity extends FlutterActivity {
             }
         }
         return null;
-    }
-
-    private void requestAllPermission() {
-        String[] permissions = {
-                Manifest.permission.RECORD_AUDIO
-        };
-        requestPermissions(permissions, 0);
     }
 }

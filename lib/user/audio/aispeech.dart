@@ -4,7 +4,7 @@ class AISpeechAudioController extends AudioController {
   static const platform = const MethodChannel('com.example.qauto/speech');
 
   @override
-  Future<bool> _auth() async {
+  Future<bool> auth() async {
     return await platform.invokeMethod('auth');
   }
 

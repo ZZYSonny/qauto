@@ -15,7 +15,7 @@ class TestQuestionPageState extends QuestionPageController {
 
 ///通过log来模拟声音输出和回答
 class TestAudioController extends AudioController {
-  Future<bool> _auth() async {
+  Future<bool> auth() async {
     return true;
   }
 

@@ -1,13 +1,9 @@
 part of 'package:qauto/user/all.dart';
 
 abstract class AudioController {
-  Future<bool> _auth();
 
-  ///初始化直到成功
-  Future<void> auth() async {
-    SystemChannel.requestPermssion();
-    await _auth();
-  }
+  ///初始化
+  Future<bool> auth();
 
   Future<void> initEngine();
 

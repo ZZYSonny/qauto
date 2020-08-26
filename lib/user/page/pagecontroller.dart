@@ -42,7 +42,10 @@ class QuestionPageController extends QuestionPageState{
   @override
   void onStartButton() {
     assert(_state == PageState.INITED_NOT_STARTED);
-    setState(() {_state = PageState.STARTED;});
+    setState(() {
+      _state = PageState.STARTED;
+      _title = "背诗自动机：" + _resource.getName();
+    });
     askQuestion(_resource.toQuestion());
   }
 
@@ -50,7 +53,7 @@ class QuestionPageController extends QuestionPageState{
   void onStopButton(){
     assert(_state == PageState.STARTED);
     showInit("", "已停止", PageState.INITED_NOT_STARTED, "已停止");
-    questionSummary();
+    stopQuestion();
   }
 
   ///根据应用的打开状态初始化界面
